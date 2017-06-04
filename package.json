@@ -1,0 +1,19 @@
+{
+  "name": "monopoly",
+  "version": "1.0.0",
+  "description": "monopoly app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.10",
+    "sequelize": "^3.30.4"
+  }
+}
