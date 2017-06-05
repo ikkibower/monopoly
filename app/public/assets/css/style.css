@@ -3,7 +3,8 @@
 	height:600px;
 
 }
-#game-board {
+#game-board,
+#movement-path {
 	position: absolute;
 	z-index: 0;
     width: 600px;

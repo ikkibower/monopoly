@@ -4,10 +4,14 @@ var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
+
+var db = require("./app/models/");
+
 // Sets up the Express App
 // =============================================================
 var app = express();
 var PORT = process.env.PORT || 8080;
+
 
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
@@ -34,10 +38,15 @@ var routes = require('./app/controllers/appController.js');
 app.use('/', routes);
 
 
-
-
 // Starts the server to begin listening
 // =============================================================
-app.listen(PORT, function() {
-  console.log('App listening on PORT ' + PORT);
+db.sequelize.sync().then(function() {
+    app.listen(PORT, function() {
+        console.log("listening on port %s", PORT);
+    });
+
 });
+
+// app.listen(PORT, function() {
+//   console.log('App listening on PORT ' + PORT);
+// });

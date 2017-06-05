@@ -39,7 +39,8 @@
 	<rect id="box28" x="1013.179" y="-1" fill="none" stroke="#000000" stroke-miterlimit="10" widthbox="117.333" height="191.179"/>
 	<rect id="box29" x="1131.179" y="-1" fill="none" stroke="#000000" stroke-miterlimit="10" widthbox="117.333" height="191.179"/>
 </g>
-<g id="row3" opacity="0">
+<g id="row3
+	" opacity="0">
 	<rect id="box30" x="1248.82" y="-1" fill="none" stroke="#000000" stroke-miterlimit="10" widthbox="191.18" height="191.178"/>
 	<rect id="box31" x="1248.82" y="190.178" fill="none" stroke="#000000" stroke-miterlimit="10" widthbox="191.18" height="117.334"/>
 	<rect id="box32" x="1248.82" y="307.178" fill="none" stroke="#000000" stroke-miterlimit="10" widthbox="191.18" height="117.334"/>
