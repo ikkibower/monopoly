@@ -20,6 +20,25 @@ module.exports = function(sequelize, DataTypes) {
             notNull: true,
             allowNull: false
         },
+        account: {
+            type: DataTypes.INTEGER,
+            notNull: true,
+            allowNull: false
+        },
+        currentSpace: {
+            type: DataTypes.INTEGER,
+            notNull: true,
+            allowNull: false
+        },
+        properties: {
+            type: DataTypes.STRING,
+        },
+        jail: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            notNull: true,
+            allowNull: false
+        },
         date: DataTypes.DATE
     }, {
         timestamps: true
