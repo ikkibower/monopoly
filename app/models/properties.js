@@ -1,10 +1,14 @@
 module.exports = function(sequelize, DataTypes) {
-    var Property = sequelize.define("property", {
-        uuid: {
+    var Property = sequelize.define("Property", {
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV1,
             primaryKey: true
         },
+        // id: {
+        //     type: DataTypes.INTEGER,
+        //     primaryKey: true
+        // },
         name: {
             type: DataTypes.STRING,
             notNull: true,
@@ -18,24 +22,22 @@ module.exports = function(sequelize, DataTypes) {
         owned: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
-            notNull: true,
-            allowNull: false
         },
-        saleValue: {
+        owner: {
+            type: DataTypes.STRING,
+        },
+        price: {
             type: DataTypes.INTEGER,
-            notNull: true,
-            allowNull: false
         },
         rent: {
             type: DataTypes.INTEGER,
-            notNull: true,
-            allowNull: false
         },
         mortgage: {
             type: DataTypes.INTEGER,
-            notNull: true,
-            allowNull: false
         },
+
+    }, {
+        timestamps: false
     });
     return Property;
 };
