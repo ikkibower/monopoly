@@ -5,10 +5,6 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: DataTypes.UUIDV1,
             primaryKey: true
         },
-        // id: {
-        //     type: DataTypes.INTEGER,
-        //     primaryKey: true
-        // },
         name: {
             type: DataTypes.STRING,
             notNull: true,
