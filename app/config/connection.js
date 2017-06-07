@@ -6,7 +6,7 @@
 var Sequelize = require("sequelize");
 
 // Creates mySQL connection using Sequelize
-var sequelize = new Sequelize("monopoly_db", "root", "root", {
+var sequelize = new Sequelize("monopoly_db", "root", "Judy112116", {
   host: "localhost",
   dialect: "mysql",
   pool: {

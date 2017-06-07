@@ -1,3 +1,4 @@
 SELECT * FROM properties;
 
-INSERT INTO properties VALUES (0,"Go","Go",null,null,60,2,30);
+INSERT INTO properties VALUES (30,"Go to Jail","jail",null,null,null,null,null);
+INSERT INTO properties VALUES (31,"Pacific Ave","Property",null,null,null)
