@@ -1,4 +1,5 @@
 SELECT * FROM properties;
+
 -- Row 1 
 INSERT INTO properties VALUES (0,"Go","Go",null,null,null,null,null);
 INSERT INTO properties VALUES (1,'Mediteranean Avenue','Property',false,null,60,30,2);
@@ -22,4 +23,12 @@ INSERT INTO properties VALUES (17,"Community Chest","Chest",null,null,null,null)
 INSERT INTO properties VALUES (18,"Tennessee Ave.","Property",false,null,180,14,90);
 INSERT INTO properties VALUES (19,"New York Ave.","Property",false,null,200,16,100);
 -- Row 3
-
+INSERT INTO properties VALUES (20, "Free Parking", "Free",null,null,null,null,null);
+INSERT INTO properties VALUES (21, "Kentucky Ave", "Property",false,null,220,18,110);
+INSERT INTO properties VALUES (22, "Chance", "Chance",null,null,null,null,null);
+INSERT INTO properties VALUES (23, "Indiana Ave", "Property", false, null, 220, 18, 110);
+INSERT INTO properties VALUES (24, "Illinois Ave", "Property", false, null, 240, 20, 120);
+INSERT INTO properties VALUES (25, "B. & O. Railroad", "Railroad", false, null, 200, 25, 100);
+INSERT INTO properties VALUES (26, "Atlantic Ave", "Property", false, null, 260, 22, 130);
+INSERT INTO properties VALUES (27, "Ventnor Ave", "Property", false, null, 260, 22, 130);
+INSERT INTO properties VALUES (28, "Water Works", "Property");
