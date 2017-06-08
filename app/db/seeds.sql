@@ -31,4 +31,5 @@ INSERT INTO properties VALUES (24, "Illinois Ave", "Property", false, null, 240,
 INSERT INTO properties VALUES (25, "B. & O. Railroad", "Railroad", false, null, 200, 25, 100);
 INSERT INTO properties VALUES (26, "Atlantic Ave", "Property", false, null, 260, 22, 130);
 INSERT INTO properties VALUES (27, "Ventnor Ave", "Property", false, null, 260, 22, 130);
-INSERT INTO properties VALUES (28, "Water Works", "Property");
+INSERT INTO properties VALUES (28, "Water Works", "Property", false, null, 150,4,75);
+INSERT INTO properties VALUES (29, "Marvin Gardens", "Property", false, null, 280,24,140);
