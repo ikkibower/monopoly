@@ -1,33 +1,21 @@
 {
   "development": {
     "username": "root",
-<<<<<<< HEAD
-    "password": "caeser",
-=======
-    "password": "Ufcvette1!",
->>>>>>> f6954a5bf90e885312e2211a01a61898abb2fbe7
+    "password": "root",
     "database": "monopoly_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-<<<<<<< HEAD
-    "password": "caeser",
-=======
-    "password": "Ufcvette1!",
->>>>>>> f6954a5bf90e885312e2211a01a61898abb2fbe7
+    "password": "root",
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-<<<<<<< HEAD
-    "password": "caeser",
-=======
-    "password": "Ufcvette1!",
->>>>>>> f6954a5bf90e885312e2211a01a61898abb2fbe7
+    "password": "root",
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
