@@ -21,6 +21,9 @@ module.exports = function(sequelize, DataTypes) {
             notNull: true,
             allowNull: false
         },
+        players : {
+            type: DataTypes.INTEGER,
+        },
         status: {type: DataTypes.ENUM('active','inactive'),defaultValue:'active' }
     });
     return User;

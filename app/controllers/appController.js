@@ -4,13 +4,12 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 var expressValidator = require('express-validator');
 
-var authController = require('../controllers/authcontroller.js');
 
 var db = require("../models");
 
 
 
-/* GET home signup page. */
+/* GET requests for login, start game */
 router.get('/', function(req, res, next) {
     res.render('signup', { title: 'Monopoly-Lite' });
 });
@@ -24,68 +23,69 @@ router.get('/login', function(req, res, next) {
 router.get('/game', function(req, res, next) {
     res.render('game', { title: 'Monopoly-Lite' });
 });
-// router.get("/",
-//     function(req, res) {
-//         // if (req.user) {
-//         //     res.render("signin");
-//         // }
-//         console.log(req.user);
-//         res.render("game", { user: req.user });
 
-//     });
-
-
-
-
-// Signup POST Validation
-router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/game', // redirect to the secure game section
-    failureRedirect: '/signup', // redirect back to the signup page if there is an error
-    failureFlash: true // allow flash messages
-}));
-
-router.post('/login', passport.authenticate('local-signin', {
-    successRedirect: '/game', // redirect to the secure game section
-    failureRedirect: '/login', // redirect back to the signup page if there is an error
-    failureFlash: true // allow flash messages
-}));
-
-
-
-router.get('/login',
-    function(req, res) {
-        res.render('login');
-    });
-
-router.get('/logout', 
-	function(req, res) {
-    req.session.destroy(function(err) {
-        res.redirect('/');
+/*Get function that associates logged in user with form data */
+router.get('/start', function(req, res, next) {
+    db.user.findOne({
+        where: { uuid: req.user.uuid },
+    }).then(function(data) {
+    	console.log(data.uuid);
+        var hbsObj = {
+            id: data.uuid,
+            username: data.username
+        };
+        res.render('start', hbsObj);
     });
 });
 
 
-// Get Board Values
+// API Get Board Values
 router.get("/api/propertys", function(req, res) {
     db.Property.findAll({}).then(function(values) {
         res.json(values);
     });
 });
 
-// Passport Authentication 
-// router.post('/login',
-//     passport.authenticate('local', {
-//         successRedirect: '/',
-//         failureRedirect: '/login',
-//         failureFlash: true
-//     })
+// Signup/Login POST Validation through Passport
+router.post('/signup', passport.authenticate('local-signup', {
+    successRedirect: '/start', // redirect to the secure game section
+    failureRedirect: '/signup', // redirect back to the signup page if there is an error
+    failureFlash: true // allow flash messages
+}));
 
-// );
-// console.log('ok');
+router.post('/login', passport.authenticate('local-signin', {
+    successRedirect: '/start', // redirect to the secure game section
+    failureRedirect: '/login', // redirect back to the signup page if there is an error
+    failureFlash: true // allow flash messages
+}));
 
-// router.post('/login', function(req, res, next) {
-//   res.render('index', { title: 'Loged In' });
-// });
-// Export routes for server.js to use.
+/* '/start' Post Request */
+router.put('/:id', function(req, res) {
+    db.user.update({
+        players: req.body.players
+    }, {
+        where: {
+            uuid: req.params.id
+        }
+    }).then(res.redirect('/select'));
+});
+
+/*Login & Logout through Passport*/
+router.get('/login',
+    function(req, res) {
+        res.render('login');
+    });
+
+router.get('/logout',
+    function(req, res) {
+        req.session.destroy(function(err) {
+            res.redirect('/');
+        });
+    });
+
+
+
+
+
+
 module.exports = router;
-
