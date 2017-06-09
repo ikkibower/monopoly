@@ -1,8 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
     var Property = sequelize.define("Property", {
         id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV1,
+            type: DataTypes.INTEGER,
             primaryKey: true
         },
         name: {

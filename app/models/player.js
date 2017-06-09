@@ -1,9 +1,9 @@
 module.exports = function(sequelize, DataTypes) {
 
     var Player = sequelize.define("Player", {
-        uuid: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV1,
+        id: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
             primaryKey: true
         },
         player_name: {
@@ -20,12 +20,12 @@ module.exports = function(sequelize, DataTypes) {
             notNull: true,
             allowNull: false
         },
-        account: {
+        money: {
             type: DataTypes.INTEGER,
             notNull: true,
             allowNull: false
         },
-        currentSpace: {
+        current_space: {
             type: DataTypes.INTEGER,
             notNull: true,
             allowNull: false
@@ -33,15 +33,21 @@ module.exports = function(sequelize, DataTypes) {
         properties: {
             type: DataTypes.STRING,
         },
+        active_turn: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            notNull: true,
+            allowNull: false
+        },
         jail: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
             notNull: true,
             allowNull: false
         },
-        date: DataTypes.DATE
+        
     }, {
-        timestamps: true
+        timestamps: false
     });
     return Player;
 };
