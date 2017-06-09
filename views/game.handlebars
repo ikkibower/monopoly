@@ -1,14 +1,17 @@
 <div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-6" id="game-field">
-            
+    <div class="col-sm-4">
+        <h1>{{title}}</h1>
+        <p>Welcome to {{title}}</p>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6" id="game-field">
                 <svg id="svg" width=900px height=600px></svg>
                 <img id="piece1" src="./assets/img/boot.svg" />
-            
+            </div>
+            <div class="col-sm-12 col-md-6" id="player-field">
+                <span><button type="submit" class="btn btn-default" id="submit">Submit</button></span>
+                <span><button type="submit" class="btn btn-default" id="roll">Roll</button></span> {{!-- <img id="game-board" src="./assets/img/boot.svg" /> --}}
+            </div>
         </div>
-        <div class="col-sm-12 col-md-6" id="player-field">
-            <span><button type="submit" class="btn btn-default" id="submit">Submit</button></span>
-            <span><button type="submit" class="btn btn-default" id="roll">Roll</button></span> {{!-- <img id="game-board" src="./assets/img/boot.svg" /> --}}
-        </div>
+
     </div>
-</div>
