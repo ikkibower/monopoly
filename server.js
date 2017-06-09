@@ -34,6 +34,7 @@ app.set('view engine', 'handlebars');
 
 
 // Handlebars Routes
+var api = require('./app/public/assets/js/app.js');
 var routes = require('./app/controllers/appController.js');
 app.use('/', routes);
 
