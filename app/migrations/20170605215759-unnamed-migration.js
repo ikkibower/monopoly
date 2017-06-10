@@ -46,6 +46,31 @@ module.exports = {
             notNull: true,
             allowNull: false
         },
+        rentOne: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
+        rentTwo: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
+        rentThree: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
+        rentFour: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
+        rentHotel: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
         mortgage: {
             type: Sequelize.INTEGER,
             notNull: true,

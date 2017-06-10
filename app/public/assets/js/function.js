@@ -52,7 +52,24 @@ function callSpace(num) {
 
 // Get 'boardvalues' in appController
 function getBoardValue(num) {
+<<<<<<< HEAD
     $.get('/api/propertys', function(data) {
         console.log(data[num]);
     });
 }
+=======
+	$.get('/api/propertys', function(data) {
+		console.log(data[num]);
+        
+
+        $('#prop-info').html(`
+            <label>TITLE DEEDS</label>
+            <p>${data[num].name}</p>
+            <br>
+            <p>RENT ${data[num].rent}</p>
+            <p>Mortgage Value ${data[num].mortgage}</p>
+            `)
+	});
+}
+
+>>>>>>> c2cbf8948bfcb754974b573f3feab457e261b43b
