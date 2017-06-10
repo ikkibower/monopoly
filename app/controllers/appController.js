@@ -24,7 +24,7 @@ router.get('/game', function(req, res, next) {
     res.render('game', { title: 'Monopoly-Lite' });
 });
 
-/*Get function that associates logged in user with form data */
+/*Get request associates logged in user with form data */
 router.get('/start', function(req, res, next) {
     db.user.findOne({
         where: { uuid: req.user.uuid },
@@ -37,14 +37,21 @@ router.get('/start', function(req, res, next) {
         res.render('start', hbsObj);
     });
 });
-
-
-// API Get Board Values
-router.get("/api/propertys", function(req, res) {
-    db.Property.findAll({}).then(function(values) {
-        res.json(values);
+/*Select page*/
+router.get('/select', function(req, res, next) {
+    db.user.findOne({
+        where: { uuid: req.user.uuid },
+    }).then(function(data) {
+    	console.log(data.uuid);
+        var hbsObj = {
+            id: data.uuid,
+            username: data.username,
+            players: data.players
+        };
+        res.render('select', hbsObj);
     });
 });
+
 
 // Signup/Login POST Validation through Passport
 router.post('/signup', passport.authenticate('local-signup', {
@@ -70,6 +77,20 @@ router.put('/:id', function(req, res) {
     }).then(res.redirect('/select'));
 });
 
+/**/
+/*Select Players*/
+router.post('/select', function(req, res) {
+	console.log(req);
+	res.redirect('/game');
+    // db.user.update({
+    //     players: req.body.players
+    // }, {
+    //     where: {
+    //         uuid: req.params.id
+    //     }
+    // }).then(res.redirect('/select'));
+});
+
 /*Login & Logout through Passport*/
 router.get('/login',
     function(req, res) {
@@ -84,7 +105,20 @@ router.get('/logout',
     });
 
 
-
+// API Get Board Values
+router.get("/api/propertys", function(req, res) {
+    db.Property.findAll({}).then(function(values) {
+        res.json(values);
+    });
+});
+// API User
+router.get("/api/user", function(req, res) {
+        db.user.findOne({
+        where: { uuid: req.user.uuid },
+    }).then(function(data) { 	
+        res.json(data);
+    });
+});
 
 
 
