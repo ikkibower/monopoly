@@ -40,3 +40,17 @@ INSERT INTO properties VALUES (29, "Marvin Gardens", "Property", false, null, 28
 INSERT INTO players VALUES("Georgio","Hat",1500,0,null,false,false);
 
 
+<<<<<<< HEAD
+INSERT INTO properties VALUES (30,"Go to Jail","Jail",null,null,null,null,null);
+INSERT INTO properties VALUES (31,"Pacific Ave","Property",null,null,300,26,150);
+INSERT INTO properties VALUES (32, "North Carolina","Property",null,null,300,26,150);
+INSERT INTO properties VALUES (33, "Community Chest","Chest",null,null,null,null,null);
+INSERT INTO properties VALUES (34, "Pennsylvania Ave","Property",null,null,320,28,160);
+INSERT INTO properties VALUES (35, "Short Line Railroad","Property",null,null,200,25,100);
+INSERT INTO properties VALUES (36, "Chacne","Chance",null,null,null,null,null);
+INSERT INTO properties VALUES (37, "Park Place","Property",null,null,350,35,175);
+INSERT INTO properties VALUES (38, "Luxury Tax","Tax",null,null,null,null,null);
+INSERT INTO properties VALUES (39, "Boardwalk","Property",null,null,400,50,200);
+
+=======
+>>>>>>> 7cc6fba809967a0be0faf7d507ab7f6a39ee3538
