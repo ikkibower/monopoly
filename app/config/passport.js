@@ -6,7 +6,7 @@ module.exports = function(passport, user) {
     var User = user;
     var LocalStrategy = require('passport-local').Strategy;
 
-
+/*Serialize & Deserialize User (Login & Logout)*/
     passport.serializeUser(function(user, done) {
         done(null, user);
     });
@@ -14,9 +14,8 @@ module.exports = function(passport, user) {
     passport.deserializeUser(function(user, done) {
         done(null, user);
     });
-
+/*Local Signup Strategy*/
     passport.use('local-signup', new LocalStrategy(
-
         {
             usernameField: 'username',
             passwordField: 'password',
@@ -68,7 +67,7 @@ module.exports = function(passport, user) {
 
     ));
 
-    //LOCAL SIGNIN
+/*Local Signin Strategy*/
     passport.use('local-signin', new LocalStrategy(
 
         {

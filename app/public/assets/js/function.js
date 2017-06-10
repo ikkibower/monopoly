@@ -2,6 +2,7 @@
 var piece;
 // Snap.svg Setup
 var s = Snap('#svg');
+var sd = Snap('#dice-svg');
 // s.attr({ viewBox: "0 0 600 900" });
 
 // var board = s.board();
@@ -32,28 +33,31 @@ $('#roll').on("click", function() {
     for (i = 0; i < 2; i++) {
         var val = Math.floor(Math.random() * 6) + 1;
         dice.push(val);
-        spaces += val;       
+        spaces += val;
     }
     Snap.load("", function(loadedFragment) {
-        s.image("assets/img/die" + dice[0] + ".svg", 650, 500, 40, 40);
-        s.image("assets/img/die" + dice[1] + ".svg", 700, 500, 40, 40);
-        s.append(loadedFragment);
+        sd.image("assets/img/die" + dice[0] + ".svg", 0, 0, 40, 40);
+        sd.image("assets/img/die" + dice[1] + ".svg", 50, 0, 40, 40);
+        sd.append(loadedFragment);
     });
-	getBoardValue(spaces);
+    getBoardValue(spaces);
     console.log(dice, spaces);
 });
 // Call Game Space
-function callSpace(num){
-	console.log(num);
-	console.log(boardValues[num]);
+function callSpace(num) {
+    console.log(num);
+    console.log(boardValues[num]);
 }
 
-$('#roll').on('click', function(){
-	
-});
 
 // Get 'boardvalues' in appController
 function getBoardValue(num) {
+<<<<<<< HEAD
+    $.get('/api/propertys', function(data) {
+        console.log(data[num]);
+    });
+}
+=======
 	$.get('/api/propertys', function(data) {
 		console.log(data[num]);
         
@@ -68,3 +72,4 @@ function getBoardValue(num) {
 	});
 }
 
+>>>>>>> c2cbf8948bfcb754974b573f3feab457e261b43b

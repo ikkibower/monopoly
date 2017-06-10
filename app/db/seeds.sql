@@ -33,14 +33,7 @@ INSERT INTO properties VALUES (26, "Atlantic Ave", "Property", false, null, 260,
 INSERT INTO properties VALUES (27, "Ventnor Ave", "Property", false, null, 260, 110,330,800,975,1150,22, 130);
 INSERT INTO properties VALUES (28, "Water Works", "Property", false, null, 150,null,null,null,null,null,4,75);
 INSERT INTO properties VALUES (29, "Marvin Gardens", "Property", false, null, 280,120,360,850,1025,1200,24,140);
-
-
-
--- Player Seeds
-INSERT INTO players VALUES("Georgio","Hat",1500,0,null,false,false);
-
-
-<<<<<<< HEAD
+-- Side 4
 INSERT INTO properties VALUES (30,"Go to Jail","Jail",null,null,null,null,null);
 INSERT INTO properties VALUES (31,"Pacific Ave","Property",null,null,300,26,150);
 INSERT INTO properties VALUES (32, "North Carolina","Property",null,null,300,26,150);
@@ -52,5 +45,11 @@ INSERT INTO properties VALUES (37, "Park Place","Property",null,null,350,35,175)
 INSERT INTO properties VALUES (38, "Luxury Tax","Tax",null,null,null,null,null);
 INSERT INTO properties VALUES (39, "Boardwalk","Property",null,null,400,50,200);
 
-=======
->>>>>>> 7cc6fba809967a0be0faf7d507ab7f6a39ee3538
+
+-- Player Seeds
+INSERT INTO players VALUES("Georgio","Hat",1500,0,null,false,false);
+
+
+
+
+

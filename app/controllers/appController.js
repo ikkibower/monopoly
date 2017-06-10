@@ -29,7 +29,7 @@ router.get('/start', function(req, res, next) {
     db.user.findOne({
         where: { uuid: req.user.uuid },
     }).then(function(data) {
-    	console.log(data.uuid);
+        console.log(data.uuid);
         var hbsObj = {
             id: data.uuid,
             username: data.username
@@ -42,7 +42,7 @@ router.get('/select', function(req, res, next) {
     db.user.findOne({
         where: { uuid: req.user.uuid },
     }).then(function(data) {
-    	console.log(data.uuid);
+        console.log(data.uuid);
         var hbsObj = {
             id: data.uuid,
             username: data.username,
@@ -80,17 +80,24 @@ router.put('/:id', function(req, res) {
 /**/
 /*Select Players*/
 router.post('/select', function(req, res) {
-	console.log(req.body.piece + "\n================================" + req.body.playername + "\n================================");
-	res.redirect('/game');
-
-//     db.Player.create({
-
-//         player_name: req.body.players
-//     }, {
-//         where: {
-//             uuid: req.params.id
-//         }
-//     }).then(res.redirect('/select'));
+    console.log(req.body.piece + req.body.playername + req.body.rollvalue);
+    res.redirect('/game');
+    for (i = 0; i < req.body.playername.length; i++) {
+        console.log(req.body.playername[i]);
+    
+        db.Player.create({
+        	id: i,
+            player_name: req.body.playername[i],
+            piece: req.body.piece[i],
+            money: 1500,
+            current_space: 0
+        }, 
+         {
+            // where: {
+            //     uuid: req.params.id
+            // }
+        }).then(res.redirect('/select'));
+}
 });
 
 /*Login & Logout through Passport*/
@@ -115,9 +122,9 @@ router.get("/api/propertys", function(req, res) {
 });
 // API User
 router.get("/api/user", function(req, res) {
-        db.user.findOne({
+    db.user.findOne({
         where: { uuid: req.user.uuid },
-    }).then(function(data) { 	
+    }).then(function(data) {
         res.json(data);
     });
 });
