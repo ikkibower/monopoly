@@ -27,6 +27,21 @@ module.exports = function(sequelize, DataTypes) {
         rent: {
             type: DataTypes.INTEGER,
         },
+        rentOne: {
+            type: DataTypes.INTEGER,
+        },
+        rentTwo: {
+            type: DataTypes.INTEGER,
+        },
+        rentThree: {
+            type: DataTypes.INTEGER,
+        },
+        rentFour: {
+            type: DataTypes.INTEGER,
+        },
+        rentHotel: {
+            type: DataTypes.INTEGER,
+        },
         mortgage: {
             type: DataTypes.INTEGER,
         },
