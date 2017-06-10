@@ -46,15 +46,13 @@ function selectPlayers() {
 				<option>Hat</option>
 				<option>Battleship</option>
 				</select>
-				
 				<br>
 				<div id="roll-div${i}">
-				<label for="roll-val${i}">Roll Value</label>
+				<label for="rollvalue">Roll Value</label>
                 <input type="text" name="rollvalue" class="form-control" id="start-roll${i}" placeholder="Roll Value" readonly>				
 				<button type="submit" class="btn btn-default" class="roll-start" id="roll-${i}">Roll</button>
 				</div>
 				</div>				
-				
             	`);            
             Roll.startRoll(i);
         }
@@ -64,10 +62,4 @@ function selectPlayers() {
      });
 }
 
-
-
 selectPlayers();
-
-
-
-
