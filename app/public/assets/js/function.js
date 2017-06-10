@@ -56,5 +56,15 @@ $('#roll').on('click', function(){
 function getBoardValue(num) {
 	$.get('/api/propertys', function(data) {
 		console.log(data[num]);
+        
+
+        $('#prop-info').html(`
+            <label>TITLE DEEDS</label>
+            <p>${data[num].name}</p>
+            <br>
+            <p>RENT ${data[num].rent}</p>
+            <p>Mortgage Value ${data[num].mortgage}</p>
+            `)
 	});
 }
+
