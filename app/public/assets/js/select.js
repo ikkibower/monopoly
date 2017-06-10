@@ -3,8 +3,10 @@ var Roll = {
     startRoll: function(num) {
     	var strRoll = '#roll-';
     	var strDiv = '#roll-div';
+    	var rollVal = '#start-roll';
         strRoll += num;
         strDiv += num;
+        rollVal += num;
         console.log(strRoll);
         $(strRoll).on('click', function() {
             event.preventDefault();
@@ -15,7 +17,7 @@ var Roll = {
                 dice.push(val);
                 spaces += val;
             }
-            $(strDiv).append(`<h4>${spaces}</h4>`);
+            $(rollVal).val(spaces);
             console.log(spaces);
         });
     }
@@ -34,34 +36,23 @@ function selectPlayers() {
                 <input type="text" name="playername" class="form-control" id="player_name" placeholder="Player Name">
             	</div>
 				<label for="piece${i}">Choose Piece</label>
-				<label class="checkbox-inline">
-				<input type="checkbox" id="inlineCheckbox1" value="option1"> Thimble
-				</label>
-				<label class="checkbox-inline">
-				<input type="checkbox" id="inlineCheckbox2" value="option2"> Wheelbarrow
-				</label>
-				<label class="checkbox-inline">
-				<input type="checkbox" id="inlineCheckbox3" value="option3"> Boot
-				</label>
-				<label class="checkbox-inline">
-				<input type="checkbox" id="inlineCheckbox1" value="option1"> Dog
-				</label>
-				<label class="checkbox-inline">
-				<input type="checkbox" id="inlineCheckbox2" value="option2"> Car
-				</label>
-				<label class="checkbox-inline">
-				<input type="checkbox" id="inlineCheckbox3" value="option3"> Iron
-				</label>
-				<label class="checkbox-inline">
-				<input type="checkbox" id="inlineCheckbox1" value="option1"> Hat
-				</label>
-				<label class="checkbox-inline">
-				<input type="checkbox" id="inlineCheckbox2" value="option2"> Battleship
-				</label>
-				</div>
+				<select name="piece"  class="form-control">
+				<option>Thimble</option>
+				<option>Wheelbarrow</option>
+				<option>Boot</option>
+				<option>Dog</option>
+				<option>Car</option>
+				<optioIron</option>
+				<option>Hat</option>
+				<option>Battleship</option>
+				</select>
+				
 				<br>
-				<div id="roll-div${i}">				
+				<div id="roll-div${i}">
+				<label for="roll-val${i}">Roll Value</label>
+                <input type="text" name="rollvalue" class="form-control" id="start-roll${i}" placeholder="Roll Value" readonly>				
 				<button type="submit" class="btn btn-default" class="roll-start" id="roll-${i}">Roll</button>
+				</div>
 				</div>				
 				
             	`);            

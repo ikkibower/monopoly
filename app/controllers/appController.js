@@ -80,15 +80,17 @@ router.put('/:id', function(req, res) {
 /**/
 /*Select Players*/
 router.post('/select', function(req, res) {
-	console.log(req);
+	console.log(req.body.piece + "\n================================" + req.body.playername + "\n================================");
 	res.redirect('/game');
-    // db.user.update({
-    //     players: req.body.players
-    // }, {
-    //     where: {
-    //         uuid: req.params.id
-    //     }
-    // }).then(res.redirect('/select'));
+
+//     db.Player.create({
+
+//         player_name: req.body.players
+//     }, {
+//         where: {
+//             uuid: req.params.id
+//         }
+//     }).then(res.redirect('/select'));
 });
 
 /*Login & Logout through Passport*/
