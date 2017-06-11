@@ -4,8 +4,6 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 var expressValidator = require('express-validator');
 
-var authController = require('../controllers/authcontroller.js');
-
 var db = require("../models");
 
 
