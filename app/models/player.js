@@ -1,9 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
 
     var Player = sequelize.define("Player", {
-        id: {
+        uuid: {
             type: DataTypes.INTEGER,
-            defaultValue: 0,
+            // defaultValue: DataTypes.UUIDV1,
+            autoIncrement: true,
             primaryKey: true
         },
         player_name: {
@@ -21,6 +22,11 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         money: {
+            type: DataTypes.INTEGER,
+            notNull: true,
+            allowNull: false
+        },
+        roll: {
             type: DataTypes.INTEGER,
             notNull: true,
             allowNull: false
@@ -45,9 +51,11 @@ module.exports = function(sequelize, DataTypes) {
             notNull: true,
             allowNull: false
         },
-        
+        parent_user: {
+            type: DataTypes.STRING,
+        }
     }, {
-        timestamps: false
+        status: { type: DataTypes.ENUM('active', 'inactive'), defaultValue: 'active' }
     });
     return Player;
 };
