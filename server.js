@@ -9,7 +9,7 @@ var expressValidator = require('express-validator');
 var morgan= require('morgan');
 var passport = require('passport');
 var session = require('express-session');
-
+var methodOverride = require('method-override');
 
 var db = require("./app/models/");
 
@@ -34,6 +34,8 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser());
 app.use(expressValidator([]));
+// Method Override
+app.use(methodOverride('_method'));
 
 
 
@@ -57,7 +59,7 @@ app.use(passport.session());
 
 // Routes
 // =============================================================
-
+ 
     //load passport strategies
     require('./app/config/passport.js')(passport,db.user);
 
@@ -76,12 +78,8 @@ app.use('/', routes);
 db.sequelize.sync().then(function() {
     app.listen(PORT, function() {
         console.log("🌎 listening on port %s", PORT);
-        console.log(db.User);
+        console.log(db.user);
         console.log(db.Property);
     });
 
 });
-
-// app.listen(PORT, function() {
-//   console.log('App listening on PORT ' + PORT);
-// });

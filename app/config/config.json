@@ -1,21 +1,18 @@
  {
   "development": {
-    "user": "root",
-    "password": "Ufcvette1!",
+    "username": "root",
     "database": "monopoly_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
-    "user": "root",
-    "password": "Ufcvette1!",
+    "username": "root",
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "user": "root",
-    "password": "Ufcvette1!",
+    "username": "root",
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"

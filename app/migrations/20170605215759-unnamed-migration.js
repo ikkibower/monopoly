@@ -25,7 +25,7 @@ module.exports = {
             notNull: true,
             allowNull: false
         },
-        owned: {
+        isOwned: {
             type: Sequelize.BOOLEAN,
             defaultValue: false,
             notNull: true,
@@ -46,8 +46,39 @@ module.exports = {
             notNull: true,
             allowNull: false
         },
+        rentOne: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
+        rentTwo: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
+        rentThree: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
+        rentFour: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
+        rentHotel: {
+          type:Sequelize.INTEGER,
+          notNull: true,
+          allowNull: false
+        },
         mortgage: {
             type: Sequelize.INTEGER,
+            notNull: true,
+            allowNull: false
+        },
+        isMotgaged: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false,
             notNull: true,
             allowNull: false
         }
