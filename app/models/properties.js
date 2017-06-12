@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
             notNull: true,
             allowNull: false
         },
-        owned: {
+        isOwned: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
@@ -48,7 +48,10 @@ module.exports = function(sequelize, DataTypes) {
         mortgage: {
             type: DataTypes.INTEGER,
         },
-
+        isMortgaged: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        }
     }, {
         timestamps: false
     });
