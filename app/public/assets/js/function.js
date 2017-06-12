@@ -89,18 +89,19 @@ function playerTurn() {
     }
 }
 // Update globalPlayers object on move
-function updateGlobal(spaces) {
-    console.log(globalPlayers);
+function updateGlobal(spaces) {    
     for (i = 0; i <= globalPlayers.length; i++) {
         var next = i + 1;
         console.log(next);
+        console.log(globalPlayers);
         if (globalPlayers[i].active_turn === true && next < globalPlayers.length) {
             globalPlayers[i].current_space += spaces;
             checkBoard(i, spaces);
             globalPlayers[i].active_turn = false;
             globalPlayers[next].active_turn = true;
-            break;
-        } else if (globalPlayers[i].active_turn === true && next > globalPlayers.length) {
+            return;
+         } 
+        else if (globalPlayers[i].active_turn === true && next > globalPlayers.length) {
             globalPlayers[i].current_space += spaces;
             checkBoard(i, spaces);
             globalPlayers[i].active_turn = false;
