@@ -2,6 +2,7 @@
 var piece;
 var globalPlayers = [];
 var activePlayer = "";
+var boardValues = [];
 // Snap.svg Setup
 var s = Snap('#svg');
 // s.attr({ viewBox: "0 0 600 900" });
@@ -31,9 +32,11 @@ $('#submit').on('click', function() {
 $('#roll').on("click", function() {
     event.preventDefault();
     rollDice();
+
 });
 $('#start').on('click', function(req, res) {
     getPlayer();
+    getBoardValue();
 
 });
 /*====     Game Functions     =====
@@ -53,7 +56,7 @@ function rollDice(spaces) {
         s.image("assets/img/die" + dice[1] + ".svg", 700, 500, 40, 40);
         s.append(loadedFragment);
     });
-    getBoardValue(spaces);
+
     console.log(dice, spaces);
     updateGlobal(spaces);
 
@@ -65,58 +68,61 @@ function callSpace(num) {
     console.log(boardValues[num]);
 
 }
+// Sort
+function playerSort() {
+    globalPlayers.sort(function(a, b) {
+        return parseFloat(a.roll) - parseFloat(b.roll);
+    });
+}
 
 // Choose Playing Order
 function playingOrder() {
     $('#start').hide();
     $('#roll').removeClass("hidden");
     event.preventDefault();
-    globalPlayers.sort(function(a, b) {
-        return parseFloat(a.roll) - parseFloat(b.roll);
-    });
+    playerSort();
     globalPlayers[0].active_turn = true;
     activePlayer = globalPlayers[0];
     playerTurn();
     console.log(globalPlayers);
 }
-// Player Turn
-function playerTurn() {
+
+// Board position logic
+function updateGlobal(spaces) {
     for (i = 0; i < globalPlayers.length; i++) {
-        if (globalPlayers[i].active_turn === true) {
-            console.log("Your move: " + globalPlayers[i].player_name);
-        }
-    }
-}
-// Update globalPlayers object on move
-function updateGlobal(spaces) {    
-    for (i = 0; i <= globalPlayers.length; i++) {
         var next = i + 1;
-        console.log(next);
-        console.log(globalPlayers);
         if (globalPlayers[i].active_turn === true && next < globalPlayers.length) {
+            console.log("Your move: " + globalPlayers[i].player_name);
+            console.log(globalPlayers[i].current_space);
+            if (globalPlayers[i].current_space + spaces > 39) {
+                globalPlayers[i].money += 200;
+                globalPlayers[i].current_space = spaces % 39;
+            }
+            console.log(boardValues[globalPlayers[i].current_space]);
             globalPlayers[i].current_space += spaces;
-            checkBoard(i, spaces);
+            console.log(globalPlayers[i].current_space += spaces);
+            console.log(globalPlayers[i].player_name, globalPlayers[i].current_space);
             globalPlayers[i].active_turn = false;
             globalPlayers[next].active_turn = true;
-            return;
-         } 
-        else if (globalPlayers[i].active_turn === true && next > globalPlayers.length) {
+            var currentSpace = globalPlayers[i].current_space;
+            break;
+        } else if (globalPlayers[i].active_turn === true && next === globalPlayers.length) {
+            console.log("Your move: " + globalPlayers[i].player_name);
+            if (globalPlayers[i].current_space + spaces > 39) {
+                globalPlayers[i].money += 200;
+                globalPlayers[i].current_space = spaces % 39;
+            }
+            console.log(boardValues[globalPlayers[i].current_space]);
+            next = 0;
             globalPlayers[i].current_space += spaces;
-            checkBoard(i, spaces);
+            console.log(globalPlayers[i].player_name, globalPlayers[i].current_space);
             globalPlayers[i].active_turn = false;
             globalPlayers[0].active_turn = true;
-            console.log[boardValues[globalPlayers[i].current_space]];
         }
+        console.log(next);
+    }
+}
 
-    }
-}
-// Check to see if user has passed 'Go'
-function checkBoard(i, spaces) {
-    if (globalPlayers[i].space + spaces > 39) {
-        globalPlayers[i].money += 200;
-        globalPlayers[i].current_space = 0;
-    }
-}
 
 $('#roll').on('click', function() {
 
@@ -130,8 +136,8 @@ $('#roll').on('click', function() {
 // Get Board Values API
 function getBoardValue(num) {
     $.get('/api/propertys', function(data) {
+        boardValues = data;
         console.log(data[num]);
-
         $('#prop-info').html(`
             <label>TITLE DEEDS</label>
             <p>${data[num].name}</p>
