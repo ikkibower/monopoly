@@ -45,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
             notNull: true,
             allowNull: false
         },
-        
+
     }, {
         timestamps: false
     });
