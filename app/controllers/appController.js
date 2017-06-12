@@ -78,26 +78,21 @@ router.put('/:id', function(req, res) {
 });
 
 /**/
-/*Select Players*/
+/*Select Players */
+// =============================================
 router.post('/select', function(req, res) {
-    console.log(req.body.piece + req.body.playername + req.body.rollvalue);
-    res.redirect('/game');
     for (i = 0; i < req.body.playername.length; i++) {
-        console.log(req.body.playername[i]);
-    
-        db.Player.create({
-        	id: i,
-            player_name: req.body.playername[i],
-            piece: req.body.piece[i],
-            money: 1500,
-            current_space: 0
-        }, 
-         {
-            // where: {
-            //     uuid: req.params.id
-            // }
-        }).then(res.redirect('/select'));
-}
+        console.log(req.body.playername[i]);  
+    db.Player.create({
+        player_name: req.body.playername[i],
+        piece: req.body.piece[i],
+        money: 1500,
+        roll: req.body.rollvalue[i],
+        current_space: 0,
+        parent_user: req.body.parentuser[i]        
+    });
+	}
+	res.redirect('/game');
 });
 
 /*Login & Logout through Passport*/
@@ -114,13 +109,13 @@ router.get('/logout',
     });
 
 
-// API Get Board Values
+// Board Values API
 router.get("/api/propertys", function(req, res) {
     db.Property.findAll({}).then(function(values) {
         res.json(values);
     });
 });
-// API User
+// User API
 router.get("/api/user", function(req, res) {
     db.user.findOne({
         where: { uuid: req.user.uuid },
@@ -128,7 +123,12 @@ router.get("/api/user", function(req, res) {
         res.json(data);
     });
 });
-
+// Players API
+router.get("/api/players", function(req, res) {
+    db.Player.findAll({}).then(function(values) {
+        res.json(values);
+    });
+});
 
 
 module.exports = router;

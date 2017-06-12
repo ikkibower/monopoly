@@ -19,28 +19,31 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: false,
         },
         owner: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING
         },
         price: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
         },
         rent: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
+        },
+        monopoly: {
+            type: DataTypes.INTEGER
         },
         rentOne: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
         },
         rentTwo: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
         },
         rentThree: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
         },
         rentFour: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
         },
         rentHotel: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
         },
         mortgage: {
             type: DataTypes.INTEGER,

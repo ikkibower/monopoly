@@ -33,7 +33,7 @@ function selectPlayers() {
 				<div id="player-${i}>
 				<div class="form-group">
                 <label for="playername">Player Name</label>
-                <input type="text" name="playername" class="form-control" id="player_name" placeholder="Player Name">
+                <input type="text" name="playername" class="form-control" id="player_name" placeholder="Player Name"/>
             	</div>
 				<label for="piece${i}">Choose Piece</label>
 				<select name="piece"  class="form-control">
@@ -49,8 +49,9 @@ function selectPlayers() {
 				<br>
 				<div id="roll-div${i}">
 				<label for="rollvalue">Roll Value</label>
-                <input type="text" name="rollvalue" class="form-control" id="start-roll${i}" placeholder="Roll Value" readonly>				
+                <input type="text" name="rollvalue" class="form-control" id="start-roll${i}" placeholder="Roll Value" readonly/>				
 				<button type="submit" class="btn btn-default" class="roll-start" id="roll-${i}">Roll</button>
+				<input type="hidden" name="parentuser" value="${data.username}"/>
 				</div>
 				</div>				
             	`);            
