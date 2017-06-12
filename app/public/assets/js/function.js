@@ -58,31 +58,31 @@ $('#roll').on('click', function() {
 function getBoardValue(num) {
     $.get('/api/propertys', function(data) {
         console.log(data[num]);
-        if (data[num].type === property) {
-            $('#prop-info').html(`
-                <label>TITLE DEEDS</label>
-                <p>${data[num].name}</p>
-                <br>
-                <p>RENT ${data[num].rent}</p>
-                <p>With 1 House   ${data[num].rentOne}</p>
-                <p>With 2 House   ${data[num].rentTwo}</p>
-                <p>With 3 House   ${data[num].rentThree}</p>
-                <p>With 4 House   ${data[num].rentFour}</p>
-                <p>With HOTEL   ${data[num].rentHotel}</p>
-                <p>Mortgage Value ${data[num].mortgage}</p>
-            `)
-            if (data[num].owned === false) {
-                $('#buy-opt').html(`
-                    <label>${date[num].name} is not owned, would you like to purchase property?</label>
-                    <button>I would love to!</button>
-                    <button>Nah, I'm good</button>
-                `)
-            } else if (data[num].owned = 1) {
+        // if (data[num].type === property) {
+        //     $('#prop-info').html(`
+        //         <label>TITLE DEEDS</label>
+        //         <p>${data[num].name}</p>
+        //         <br>
+        //         <p>RENT ${data[num].rent}</p>
+        //         <p>With 1 House   ${data[num].rentOne}</p>
+        //         <p>With 2 House   ${data[num].rentTwo}</p>
+        //         <p>With 3 House   ${data[num].rentThree}</p>
+        //         <p>With 4 House   ${data[num].rentFour}</p>
+        //         <p>With HOTEL   ${data[num].rentHotel}</p>
+        //         <p>Mortgage Value ${data[num].mortgage}</p>
+        //     `)
+        //     if (data[num].owned === false) {
+        //         $('#buy-opt').html(`
+        //             <label>${date[num].name} is not owned, would you like to purchase property?</label>
+        //             <button>I would love to!</button>
+        //             <button>Nah, I'm good</button>
+        //         `)
+        //     } else if (data[num].owned = 1) {
 
 
-        }
+        // }
 
-        } 
+        // } 
     });
 }
 
