@@ -1,15 +1,18 @@
 // Global vars
-var piece;
 var globalPlayers = [];
 var activePlayer = "";
 var boardValues = [];
 // Snap.svg Setup
+var piece;
 var s = Snap('#svg');
+var die = Snap('#dice-svg');
 // s.attr({ viewBox: "0 0 600 900" });
+var hat = Snap.select('#hat');
 
+// hat.stop().animate({ transform: 't0,50'}, 200, mina.easeout);
 // var board = s.board();
-
-
+var loop = "M39.148,1387.667l7.018-210.542l0-1130.483h1326v1137.5l8.84,201.047l-0.544-0.021l-187.815-7.525h-942.98L39.148,1387.667z M47.166,47.642v1129.5l-6.982,209.475l209.458-9.974l943.024-0.001l187.293,7.504l-8.792-199.981l-0.001-1136.522H47.166z";
+var loopLength = Snap.path.getTotalLength(loop);
 // var board = s.image("monopoly.svg", 0, 0, 600, 600);
 
 var board = Snap.load("", function(loadedFragment) {
@@ -22,17 +25,48 @@ var board = Snap.load("", function(loadedFragment) {
 // TESTING PIECE ON BOARD
 $('#submit').on('click', function() {
     event.preventDefault();
+    $('#hat').show();
+    hat.marker(540,540,600,600);
     piece = Snap.load("", function(loadedFragment) {
         s.image("assets/img/car.svg", 540, 540, 50, 50);
         s.append(loadedFragment);
     });
 });
+// piece.click(function(e) {
+//     Snap.animate(0, loopLength,
+//         function(step) { //step function
+//             console.log('step', step);
+
+//             circleOutline.attr({
+//                 path: Snap.path.getSubpath(loop, 0, step)
+//             });
+//         }, // end of step function
+//         800, //duration
+//         mina.easeInOut, //easing
+//         function() { //callback
+//             setTimeout(function() {
+//                 circleOutline.attr({
+//                     path: Snap.path.getSubpath(loop, 0, 0),
+//                     strokeWidth: 0
+//                 });
+//             }, 1000); //setTimeout
+//         } //callback
+//     ); //Snap.animate
+// }); //click the circle
+
+
+
+
+
 /*====     Click Handlers     =====
  */
 $('#roll').on("click", function() {
     event.preventDefault();
     rollDice();
+    // piece.animate({x: 10}, 1000);
+    hat.animate({ transform: 't0,50' }, 200, mina.easeout, function() {
 
+    });
 });
 $('#start').on('click', function(req, res) {
     getPlayer();
@@ -52,9 +86,9 @@ function rollDice(spaces) {
         spaces += val;
     }
     Snap.load("", function(loadedFragment) {
-        s.image("assets/img/die" + dice[0] + ".svg", 650, 500, 40, 40);
-        s.image("assets/img/die" + dice[1] + ".svg", 700, 500, 40, 40);
-        s.append(loadedFragment);
+        die.image("assets/img/die" + dice[0] + ".svg", 0, 0, 40, 40);
+        die.image("assets/img/die" + dice[1] + ".svg", 50, 0, 40, 40);
+        die.append(loadedFragment);
     });
 
     console.log(dice, spaces);
@@ -83,7 +117,7 @@ function playingOrder() {
     playerSort();
     globalPlayers[0].active_turn = true;
     activePlayer = globalPlayers[0];
-    playerTurn();
+    // playerTurn();
     console.log(globalPlayers);
 }
 
@@ -93,29 +127,33 @@ function updateGlobal(spaces) {
         var next = i + 1;
         if (globalPlayers[i].active_turn === true && next < globalPlayers.length) {
             console.log("Your move: " + globalPlayers[i].player_name);
-            console.log(globalPlayers[i].current_space);
+            // Passing 'Go'
             if (globalPlayers[i].current_space + spaces > 39) {
                 globalPlayers[i].money += 200;
-                globalPlayers[i].current_space = spaces % 39;
+                globalPlayers[i].current_space = 39 % spaces;
+                console.log("L00K  " + globalPlayers[i].current_space);
+            } else {
+                globalPlayers[i].current_space += spaces;
             }
+            // Console Logs
             console.log(boardValues[globalPlayers[i].current_space]);
-            globalPlayers[i].current_space += spaces;
-            console.log(globalPlayers[i].current_space += spaces);
+            console.log("Current Space: " + globalPlayers[i].current_space);
             console.log(globalPlayers[i].player_name, globalPlayers[i].current_space);
             globalPlayers[i].active_turn = false;
             globalPlayers[next].active_turn = true;
-            var currentSpace = globalPlayers[i].current_space;
-            break;
+            return;
         } else if (globalPlayers[i].active_turn === true && next === globalPlayers.length) {
             console.log("Your move: " + globalPlayers[i].player_name);
             if (globalPlayers[i].current_space + spaces > 39) {
                 globalPlayers[i].money += 200;
                 globalPlayers[i].current_space = spaces % 39;
             }
-            console.log(boardValues[globalPlayers[i].current_space]);
-            next = 0;
             globalPlayers[i].current_space += spaces;
-            console.log(globalPlayers[i].player_name, globalPlayers[i].current_space);
+            console.log(boardValues[globalPlayers[i].current_space]);
+            console.log(globalPlayers[i].current_space);
+            next = 0;
+            console.log(globalPlayers[i].player_name,
+                globalPlayers[i].current_space);
             globalPlayers[i].active_turn = false;
             globalPlayers[0].active_turn = true;
         }
