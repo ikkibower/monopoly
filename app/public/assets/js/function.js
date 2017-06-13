@@ -1,34 +1,40 @@
 // Global vars
 var piece;
+var globalPlayers;
+var activePlayer = "";
 // Snap.svg Setup
 var s = Snap('#svg');
 // s.attr({ viewBox: "0 0 600 900" });
-
 // var board = s.board();
-
-
 // var board = s.image("monopoly.svg", 0, 0, 600, 600);
-
 var board = Snap.load("", function(loadedFragment) {
     s.image("assets/img/monopoly.svg", 0, 0, 600, 600);
     s.image("assets/img/path.svg", 0, 0, 600, 600);
     s.append(loadedFragment);
-
 });
-
 // TESTING PIECE ON BOARD
-$('#submit').on("click", function() {
+$('#submit').on('click', function() {
     event.preventDefault();
     piece = Snap.load("", function(loadedFragment) {
         s.image("assets/img/car.svg", 540, 540, 50, 50);
         s.append(loadedFragment);
     });
 });
-// Roll Dice Function
+/*====     Click Handlers     =====
+ */
 $('#roll').on("click", function() {
     event.preventDefault();
+    rollDice();
+});
+$('#start').on('click', function(req, res) {
+    getPlayer();
+});
+/*====     Game Functions     =====
+ */
+// Roll Dice Function
+function rollDice(spaces) {
     var dice = [];
-    var spaces = 0;
+    spaces = 0;
     for (i = 0; i < 2; i++) {
         var val = Math.floor(Math.random() * 6) + 1;
         dice.push(val);
@@ -41,19 +47,66 @@ $('#roll').on("click", function() {
     });
     getBoardValue(spaces);
     console.log(dice, spaces);
-});
+    updateGlobal(spaces);
+}
 // Call Game Space
 function callSpace(num) {
     console.log(num);
     console.log(boardValues[num]);
 }
-
+// Choose Playing Order
+function playingOrder() {
+    $('#start').hide();
+    $('#roll').removeClass("hidden");
+    event.preventDefault();
+    globalPlayers[0].active_turn = true;
+    activePlayer = globalPlayers[0];
+    playerTurn();
+    console.log(globalPlayers);
+}
+// Player Turn
+function playerTurn() {
+    for (i = 0; i < globalPlayers.length; i++) {
+        if (globalPlayers[i].active_turn === true) {
+            console.log("Your move: " + globalPlayers[i].player_name);
+        }
+    }
+}
+// Update globalPlayers object on move
+function updateGlobal(spaces) {    
+    for (i = 0; i < globalPlayers.length + 1; i++) {
+        var next = i + 1;
+        console.log(next);
+        console.log(globalPlayers);
+        if (globalPlayers[i].active_turn === true && next < globalPlayers.length) {
+            globalPlayers[i].current_space += spaces;
+            checkBoard(i, spaces);
+            globalPlayers[i].active_turn = false;
+            globalPlayers[next].active_turn = true;
+            return;
+         } 
+        else if (globalPlayers[i].active_turn === true && next > globalPlayers.length) {
+            globalPlayers[i].current_space += spaces;
+            checkBoard(i, spaces);
+            globalPlayers[i].active_turn = false;
+            globalPlayers[0].active_turn = true;
+            console.log[boardValues[globalPlayers[i].current_space]];
+        }
+    }
+}
+// Check to see if user has passed 'Go'
+function checkBoard(i, spaces) {
+    if (globalPlayers[i].space + spaces > 39) {
+        globalPlayers[i].money += 200;
+        globalPlayers[i].current_space = 0;
+    }
+}
 $('#roll').on('click', function() {
-
 });
-
 // function purchaseProperty
-
+/*====     API     =====
+ */
+// Get Board Values API
 // Get 'boardvalues' in appController
 function getBoardValue(num) {
     $.get('/api/propertys', function(data) {
@@ -110,6 +163,21 @@ function getBoardValue(num) {
         }
     });
 }
+
+// Get Players API
+function getPlayer(data) {
+    $.get('/api/players', function(data) {
+        data.sort(function(a, b) {
+        return parseFloat(a.roll) - parseFloat(b.roll);
+    });
+        globalPlayers = new Set([data]);
+        console.log(globalPlayers);
+        playingOrder();
+        return data;
+    });
+}
+
+
 
 // <p>Houses cost ${data[num].houseCost} each</p>
 // <p>Hotels, ${data[num].hotels.Cost} plus 4 houses</p>
