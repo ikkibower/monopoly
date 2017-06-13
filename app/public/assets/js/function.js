@@ -1,23 +1,17 @@
 // Global vars
 var piece;
-var globalPlayers = [];
+var globalPlayers;
 var activePlayer = "";
 // Snap.svg Setup
 var s = Snap('#svg');
 // s.attr({ viewBox: "0 0 600 900" });
-
 // var board = s.board();
-
-
 // var board = s.image("monopoly.svg", 0, 0, 600, 600);
-
 var board = Snap.load("", function(loadedFragment) {
     s.image("assets/img/monopoly.svg", 0, 0, 600, 600);
     s.image("assets/img/path.svg", 0, 0, 600, 600);
     s.append(loadedFragment);
-
 });
-
 // TESTING PIECE ON BOARD
 $('#submit').on('click', function() {
     event.preventDefault();
@@ -34,11 +28,9 @@ $('#roll').on("click", function() {
 });
 $('#start').on('click', function(req, res) {
     getPlayer();
-
 });
 /*====     Game Functions     =====
  */
-
 // Roll Dice Function
 function rollDice(spaces) {
     var dice = [];
@@ -56,24 +48,17 @@ function rollDice(spaces) {
     getBoardValue(spaces);
     console.log(dice, spaces);
     updateGlobal(spaces);
-
 }
-
 // Call Game Space
 function callSpace(num) {
     console.log(num);
     console.log(boardValues[num]);
-
 }
-
 // Choose Playing Order
 function playingOrder() {
     $('#start').hide();
     $('#roll').removeClass("hidden");
     event.preventDefault();
-    globalPlayers.sort(function(a, b) {
-        return parseFloat(a.roll) - parseFloat(b.roll);
-    });
     globalPlayers[0].active_turn = true;
     activePlayer = globalPlayers[0];
     playerTurn();
@@ -89,7 +74,7 @@ function playerTurn() {
 }
 // Update globalPlayers object on move
 function updateGlobal(spaces) {    
-    for (i = 0; i <= globalPlayers.length; i++) {
+    for (i = 0; i < globalPlayers.length + 1; i++) {
         var next = i + 1;
         console.log(next);
         console.log(globalPlayers);
@@ -107,7 +92,6 @@ function updateGlobal(spaces) {
             globalPlayers[0].active_turn = true;
             console.log[boardValues[globalPlayers[i].current_space]];
         }
-
     }
 }
 // Check to see if user has passed 'Go'
@@ -117,68 +101,83 @@ function checkBoard(i, spaces) {
         globalPlayers[i].current_space = 0;
     }
 }
-
 $('#roll').on('click', function() {
-
 });
-
 // function purchaseProperty
-
 /*====     API     =====
  */
-
 // Get Board Values API
+// Get 'boardvalues' in appController
 function getBoardValue(num) {
     $.get('/api/propertys', function(data) {
         console.log(data[num]);
+        if (data[num].type === property) {
+            $('#prop-info').html(`
+                <label>TITLE DEEDS</label>
+                <p>${data[num].name}</p>
+                <br>
+                <p>RENT ${data[num].rent}</p>
+                <p>With 1 House   ${data[num].rentOne}</p>
+                <p>With 2 House   ${data[num].rentTwo}</p>
+                <p>With 3 House   ${data[num].rentThree}</p>
+                <p>With 4 House   ${data[num].rentFour}</p>
+                <p>With HOTEL   ${data[num].rentHotel}</p>
+                <p>Mortgage Value ${data[num].mortgage}</p>
+            `)
+            if (data[num].owned === false) {
+                $('#buy-opt').html(`
+                    <label>${data[num].name} is not owned, would you like to purchase property?</label>
+                    <button>I would love to!</button>
+                    <button>Nah, I'm good</button>
+                `)
+            } else if (data[num].owned = true) {
+                $('#buy-opt').html(`
+                    <label>${data[num].name} is owned by ${data[num].owner}.</label>
+                    <p>You owe them money for rent.</p>
+                    `)
 
-        $('#prop-info').html(`
-            <label>TITLE DEEDS</label>
-            <p>${data[num].name}</p>
-            <br>
-            <p>RENT ${data[num].rent}</p>
-            <p>Mortgage Value ${data[num].mortgage}</p>
-            `);
+            }
+
+        } else if (data[num].type === RR) {
+            $('#prop-info').html(`
+                <p>${data[num].name}</p>
+                <p>Rent                  ${data[num].rent}</p>
+                <p>If 2 R.R.'s are owned ${data[num].rentOne}</p>
+                <p>If 3 R.R.'s are owned ${data[num].rentTwo}</p>
+                <p>If 4 R.R.'s are owned ${data[num].rentThree}</p>
+                <br>
+                <p>Mortgage Value        ${data[num].mortgage}</p>
+                `)
+            if (data[num].owned === false) {
+                $('#buy-opt').html(`
+                    <label>${data[num].name} is not owned, would you like to purchase property?</label>
+                    <button>I would love to!</button>
+                    <button>Nah, I'm good</button>
+                `)
+            } else if (data[num].owned = true) {
+                $('#buy-opt').html(`
+                    <label>${data[num].name} is owned by ${data[num].owner}.</label>
+                    <p>You owe them money for rent.</p>
+                    `)
+            }
+        }
     });
 }
 
 // Get Players API
 function getPlayer(data) {
     $.get('/api/players', function(data) {
-        globalPlayers = data;
+        data.sort(function(a, b) {
+        return parseFloat(a.roll) - parseFloat(b.roll);
+    });
+        globalPlayers = new Set([data]);
+        console.log(globalPlayers);
         playingOrder();
         return data;
     });
 }
 
-//         if (data[num].type === property) {
-//             $('#prop-info').html(`
-//                 <label>TITLE DEEDS</label>
-//                 <p>${data[num].name}</p>
-//                 <br>
-//                 <p>RENT ${data[num].rent}</p>
-//                 <p>With 1 House   ${data[num].rentOne}</p>
-//                 <p>With 2 House   ${data[num].rentTwo}</p>
-//                 <p>With 3 House   ${data[num].rentThree}</p>
-//                 <p>With 4 House   ${data[num].rentFour}</p>
-//                 <p>With HOTEL   ${data[num].rentHotel}</p>
-//                 <p>Mortgage Value ${data[num].mortgage}</p>
-//             `)
-//             if (data[num].owned === false) {
-//                 $('#buy-opt').html(`
-//                     <label>${date[num].name} is not owned, would you like to purchase property?</label>
-//                     <button>I would love to!</button>
-//                     <button>Nah, I'm good</button>
-//                 `)
-//             } else if (data[num].owned = 1) {
 
 
-//         }
-
-//         } 
-//     });
-// }
-
-// // <p>Houses cost ${data[num].houseCost} each</p>
-// // <p>Hotels, ${data[num].hotels.Cost} plus 4 houses</p>
-// >>>>>>> bb248b7a9469e9bf433a79af792e7ff9d8738597
+// <p>Houses cost ${data[num].houseCost} each</p>
+// <p>Hotels, ${data[num].hotels.Cost} plus 4 houses</p>
