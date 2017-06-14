@@ -3,8 +3,23 @@
         <h1>{{title}}</h1>
         <p>Welcome to {{title}}</p>
         <div class="row">
-            <div class="col-sm-12 col-md-6" id="game-field"> 
-            {{!-- Hat SVG --}}
+            <div class="col-sm-12 col-md-6" id="game-field">            
+                <svg id="svg" width=600px height=600px></svg>
+                <img id="piece1" src="./assets/img/boot.svg" />
+            </div>
+            <div class="col-sm-12 col-md-3" id="player-field">
+                <div id="prop-info"></div>
+                <div id="buy-opt"></div>
+                <span><button type="submit" class="btn btn-default" id="submit">Submit</button></span>
+                <span><button type="button" class="btn btn-default hidden" id="roll">Roll</button></span>
+               
+                <span><button type="submit" class="btn btn-default" id="start">Start Game</button></span>
+                <svg id="dice-svg" width=400px height=80px></svg>
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- Hat SVG --}}
                 <svg version="1.1" id="hat" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px" viewBox="175 75 450 450" enable-background="new 175 75 450 450" xml:space="preserve" hidden>
                     <g>
                         <path d="M341.334,363.037c-39.701-6.24-67.896-19.689-79.147-25.795l0.941,19.229c8.933,6.845,64.632,44.457,179.87,19.685
@@ -25,17 +40,3 @@
         c-64.752,0-117.701-12.398-134.899-16.93C254.536,177.507,254.464,177.488,254.387,177.469z" />
                     </g>
                 </svg>
-                <svg id="svg" width=600px height=600px></svg>
-                <img id="piece1" src="./assets/img/boot.svg" />
-            </div>
-            <div class="col-sm-12 col-md-3" id="player-field">
-                <div id="prop-info"></div>
-                <span><button type="submit" class="btn btn-default" id="submit">Submit</button></span>
-                <span><button type="button" class="btn btn-default hidden" id="roll">Roll</button></span>
-               
-                <span><button type="submit" class="btn btn-default" id="start">Start Game</button></span>
-                <svg id="dice-svg" width=400px height=80px></svg>
-            </div>
-        </div>
-    </div>
-</div>
