@@ -3,6 +3,7 @@
 var piece;
 var globalPlayers;
 var boardValues = [];
+var snapPieces = [];
 var activePlayer = "";
 
 // Snap.svg Setup
@@ -64,12 +65,9 @@ $('#submit').on('click', function() {
 $('#roll').on("click", function() {
     event.preventDefault();
     rollDice();
-    // piece.animate({x: 10}, 1000);
-    hat.animate({ transform: 't0,50' }, 200, mina.easeout, function() {
-
-    });
 });
 $('#start').on('click', function(req, res) {
+    event.preventDefault();
     getPlayer();
     getBoard();
 });
@@ -93,11 +91,6 @@ function rollDice(spaces) {
     console.log(dice, spaces);
     updateGlobal(spaces);
 }
-// Call Game Space
-function callSpace(num) {
-    console.log(num);
-    console.log(boardValues[num]);
-}
 
 // Sort
 function playerSort() {
@@ -117,6 +110,12 @@ function playingOrder() {
     // playerTurn();
 
 }
+// Move Piece
+function movePiece(id) {
+    hat.animate({ transform: 't0,50' }, 200, mina.easeout, function() {
+
+    });
+}
 
 // Update globalPlayers object on move
 function updateGlobal(spaces) {
@@ -132,8 +131,9 @@ function updateGlobal(spaces) {
             } else {
                 globalPlayers[i].current_space += spaces;
             }
+            movePiece(globalPlayers[i]);
             // Get Board Value
-            getBoardValue(globalPlayers[i].current_space);
+            getBoardValue(i, globalPlayers[i].current_space);
             // Console Logs
             console.log(boardValues[globalPlayers[i].current_space]);
             console.log("Current Space: " + globalPlayers[i].current_space);
@@ -149,8 +149,9 @@ function updateGlobal(spaces) {
             } else {
                 globalPlayers[i].current_space += spaces;
             }
+            movePiece();
             // Get Board Value
-            getBoardValue(globalPlayers[i].current_space);
+            getBoardValue(i, globalPlayers[i].current_space);
             console.log(boardValues[globalPlayers[i].current_space]);
             console.log(globalPlayers[i].current_space);
             next = 0;
@@ -166,17 +167,9 @@ function updateGlobal(spaces) {
 }
 
 
-
-
-
-$('#roll').on('click', function() {});
-
-/*====     API     =====
- */
-// Get Board Values API
-// Get 'boardvalues' in appController
-function getBoardValue(num) {
-if (boardValues[num].type === 'Property') {
+function getBoardValue(player, num) {
+    if (boardValues[num].type === 'Property') {
+        console.log(globalPlayers[player]);
         $('#prop-info').html(`
                 <label>TITLE DEEDS</label>
                 <p>${boardValues[num].name}</p>
@@ -189,13 +182,17 @@ if (boardValues[num].type === 'Property') {
                 <p>With HOTEL   ${boardValues[num].rentHotel}</p>
                 <p>Mortgage Value ${boardValues[num].mortgage}</p>
             `);
-        if (boardValues[num].owned === false) {
+        if (boardValues[num].isOwned === false) {
             $('#buy-opt').html(`
                     <label>${boardValues[num].name} is not owned, would you like to purchase property?</label>
-                    <button class='btn btn-default'>I would love to!</button>
+                    <button class='btn btn-default' id='buy-prop'>I would love to!</button>
                     <button class='btn btn-default'>Nah, I'm good</button>
                 `);
-        } else if (boardValues[num].owned === true) {
+            $('#buy-prop').on('click', function() {
+                globalPlayers[player].money -= boardValues[num].price;
+            });
+
+        } else if (boardValues[num].isOwned === true) {
             $('#buy-opt').html(`
                     <label>${boardValues[num].name} is owned by ${boardValues[num].owner}.</label>
                     <p>You owe them money for rent.</p>
@@ -215,13 +212,13 @@ if (boardValues[num].type === 'Property') {
                 <br>
                 <p>Mortgage Value        ${boardValues[num].mortgage}</p>
                 `);
-        if (boardValues[num].owned === false) {
+        if (boardValues[num].isOwned === false) {
             $('#buy-opt').html(`
                     <label>${boardValues[num].name} is not owned, would you like to purchase property?</label>
                     <button class='btn btn-default'>I would love to!</button>
                     <button class='btn btn-default'>Nah, I'm good</button>
                 `);
-        } else if (boardValues[num].owned === true) {
+        } else if (boardValues[num].isOwned === true) {
             $('#buy-opt').html(`
                     <label>${boardValues[num].name} is owned by ${boardValues[num].owner}.</label>
                     <p>You owe them money for rent.</p>
@@ -239,13 +236,13 @@ if (boardValues[num].type === 'Property') {
                 <br>
                 <p>Mortgage Value        ${boardValues[num].mortgage}</p>
                 `);
-        if (boardValues[num].owned === false) {
+        if (boardValues[num].isOwned === false) {
             $('#buy-opt').html(`
                     <label>${boardValues[num].name} is not owned, would you like to purchase property?</label>
                     <button class='btn btn-default'>I would love to!</button>
                     <button class='btn btn-default'>Nah, I'm good</button>
                 `);
-        } else if (boardValues[num].owned === true) {
+        } else if (boardValues[num].isOwned === true) {
             $('#buy-opt').html(`
                     <label>${boardValues[num].name} is owned by ${boardValues[num].owner}.</label>
                     <p>You owe them money for rent.</p>
@@ -286,7 +283,8 @@ if (boardValues[num].type === 'Property') {
     }
 
 }
-
+/*====     API     =====
+ */
 // Get Players API
 function getPlayer(data) {
     $.get('/api/players', function(data) {
@@ -295,7 +293,20 @@ function getPlayer(data) {
         });
         globalPlayers = data;
         playingOrder();
+        // Appending values
+        globalPlayers.forEach(function(element, index, globalPlayers) {
+            var playerPiece = "#" + element.piece;
+            console.log(playerPiece);
+            console.log(element);
+            // Append Snap.svg piece as string
+            element[element.piece] = "Snap.select(" + playerPiece + ")";
+            // Push to global snap pieces
+            snapPieces.push(element[element.piece]);
+            $(playerPiece).show();
+        });
+        console.log(snapPieces);
         return data;
+
     });
 }
 // Get Board Values API
@@ -305,9 +316,3 @@ function getBoard(data) {
         console.log(boardValues);
     });
 }
-
-
-
-
-// <p>Houses cost ${data[num].houseCost} each</p>
-// <p>Hotels, ${data[num].hotels.Cost} plus 4 houses</p>

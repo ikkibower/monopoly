@@ -78,14 +78,15 @@ router.put('/:id', function(req, res) {
 // =============================================
 router.post('/select', function(req, res) {
     for (i = 0; i < req.body.playername.length; i++) {
-        console.log(req.body.playername[i]);  
+        console.log(req.body.playername[i]);
+        var playerPiece = req.body.piece[i].toLowerCase; 
     db.Player.create({
         player_name: req.body.playername[i],
-        piece: req.body.piece[i],
+        piece: req.body.piece[i].toLowerCase(),
         money: 1500,
         roll: req.body.rollvalue[i],
         current_space: 0,
-        parent_user: req.body.parentuser[i]        
+        parent_user: req.body.parentuser[i],        
     });
 	}
 	res.redirect('/game');
