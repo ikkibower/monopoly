@@ -26,7 +26,6 @@ var pieces = ['thimble','wheelbarrow','boot','dog','car','iron','hat','battleshi
 
 function selectPlayers() {
     $.get('/api/user', function(data) {
-        console.log(data.players);
         for (i = 0; i < data.players; i++) {
             $('#select-players').append(`
             	<label>Player ${i+1}</label>            	

@@ -9,13 +9,7 @@
 	z-index: 0;
     width: 600px;
 }
-#piece1 {
-	position: absolute;
-	z-index: 1;
-	width: 40px;
-	top:550px;
-	left:558px;
-}
+
 .hidden {
 	display: none;
 }

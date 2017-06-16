@@ -5,10 +5,10 @@ INSERT INTO properties VALUES (00, "Go", "Go",null,null,null,null,null,null,null
 INSERT INTO properties VALUES (01, "Mediterranean Avenue", "Property", false,null,60,2,4,10,30,90,160,250,30,false);
 INSERT INTO properties VALUES (02, "Community Chest", "Chest",null,null,null,null,null,null,null,null,null,null,null,null);
 INSERT INTO properties VALUES (03, "Baltic Avenue", "Property", false,null,60,4,8,20,60,180,320,450,30,null);
-INSERT INTO properties VALUES (04, "Income Tax", "Tax",null,null,null,null,null,null,null,null,null,null,null);
+INSERT INTO properties VALUES (04, "Income Tax", "Tax",null,null,null,null,null,null,null,null,null,null,null,null);
 INSERT INTO properties VALUES (05, "Reading Railroad", "RR",false,null,200,25,null,50,100,200,null,null,100,false);
 INSERT INTO properties VALUES (06, "Oriental Ave", "Property",false,null,100,6,12,30,90,270,400,550,50,false);
-INSERT INTO properties VALUES (07, "Chance", "Chance",null,null,null,null,null,null,null,null,null,null,null);
+INSERT INTO properties VALUES (07, "Chance", "Chance",null,null,null,null,null,null,null,null,null,null,null,null);
 INSERT INTO properties VALUES (08, "Vermont Ave", "Property",false,null,100,6,12,30,90,270,400,550,50,false);
 INSERT INTO properties VALUES (09, "Connecticut Ave", "Property",false,null,120,8,16,40,100,300,450,600,60,false);
 -- Side 2
@@ -48,6 +48,7 @@ INSERT INTO properties VALUES (39, "Boardwalk", "Property",null,null,400,50,100,
 
 -- Player Seeds
 INSERT INTO players VALUES("Georgio","Hat",1500,0,null,false,false);
+
 
 
 

@@ -1,9 +1,9 @@
 // *********************************************************************************
 // CONNECTION.JS - THIS FILE INITIATES THE CONNECTION TO MYSQL
 // *********************************************************************************
-var env = process.env.NODE_ENV || 'development';
+// var env = process.env.NODE_ENV || 'development';
 
-var creds = require("config.json")[env];
+// var creds = require("config.json")[env];
 // Dependencies
 var Sequelize = require("sequelize");
 

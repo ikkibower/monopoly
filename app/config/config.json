@@ -1,23 +1,23 @@
  {
   "development": {
     "user": "root",
-    "password": "caeser",
+    "password": "root",
     "database": "monopoly_db",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "user": "root",
-    "password": "caeser",
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "password": "root",
+    "database": "monopoly_db",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
     "user": "root",
-    "password": "caeser",
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "password": "root",
+    "database": "monopoly_db",
+    "host": "localhost",
     "dialect": "mysql"
   }
 }

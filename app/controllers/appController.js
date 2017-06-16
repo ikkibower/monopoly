@@ -4,10 +4,7 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 var expressValidator = require('express-validator');
 
-
 var db = require("../models");
-
-
 
 /* GET requests for login, start game */
 router.get('/', function(req, res, next) {
@@ -19,7 +16,6 @@ router.get('/signup', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Monopoly-Lite' });
 });
-
 router.get('/game', function(req, res, next) {
     res.render('game', { title: 'Monopoly-Lite' });
 });
@@ -82,14 +78,15 @@ router.put('/:id', function(req, res) {
 // =============================================
 router.post('/select', function(req, res) {
     for (i = 0; i < req.body.playername.length; i++) {
-        console.log(req.body.playername[i]);  
+        console.log(req.body.playername[i]);
+        var playerPiece = req.body.piece[i].toLowerCase; 
     db.Player.create({
         player_name: req.body.playername[i],
-        piece: req.body.piece[i],
+        piece: req.body.piece[i].toLowerCase(),
         money: 1500,
         roll: req.body.rollvalue[i],
         current_space: 0,
-        parent_user: req.body.parentuser[i]        
+        parent_user: req.body.parentuser[i],        
     });
 	}
 	res.redirect('/game');
@@ -125,7 +122,8 @@ router.get("/api/user", function(req, res) {
 });
 // Players API
 router.get("/api/players", function(req, res) {
-    db.Player.findAll({}).then(function(values) {
+    console.log(req);
+    db.Player.findAll({where: {parent_user: req.user.username}}).then(function(values) {
         res.json(values);
     });
 });

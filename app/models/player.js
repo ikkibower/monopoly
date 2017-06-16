@@ -1,4 +1,7 @@
+var User = require('./users.js');
+
 module.exports = function(sequelize, DataTypes) {
+
 
     var Player = sequelize.define("Player", {
         uuid: {
