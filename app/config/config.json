@@ -14,10 +14,8 @@
     "dialect": "mysql"
   },
   "production": {
-    "user": "root",
-    "password": "root",
     "database": "monopoly_db",
-    "host": "localhost",
+    "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql"
   }
 }

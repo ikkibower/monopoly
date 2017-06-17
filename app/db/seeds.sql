@@ -36,11 +36,11 @@ INSERT INTO properties VALUES (29, "Marvin Gardens", "Property", false,null,280,
 -- Side 4
 INSERT INTO properties VALUES (30, "Go to Jail", "Jail",null,null,null,null,null,null,null,null,null,null,null,null);
 INSERT INTO properties VALUES (31, "Pacific Ave", "Property",false,null,300,26,52,130,360,850,1025,1200,150,false);
-INSERT INTO properties VALUES (32, "North Carolina", "Property",null,null,300,26,52,130,360,850,1025,1200,150,false);
+INSERT INTO properties VALUES (32, "North Carolina", "Property",false,null,300,26,52,130,360,850,1025,1200,150,false);
 INSERT INTO properties VALUES (33, "Community Chest", "Chest",null,null,null,null,null,null,null,null,null,null,null,null);
-INSERT INTO properties VALUES (34, "Pennsylvania Ave", "Property",null,null,320,28,56,150,450,1000,1200,1400,160,false);
+INSERT INTO properties VALUES (34, "Pennsylvania Ave", "Property",false,null,320,28,56,150,450,1000,1200,1400,160,false);
 INSERT INTO properties VALUES (35, "Short Line Railroad", "RR",false,null,200,25,null,50,100,200,null,null,100,false);
 INSERT INTO properties VALUES (36, "Chance", "Chance",null,null,null,null,null,null,null,null,null,null,null,null);
-INSERT INTO properties VALUES (37, "Park Place", "Property",null,null,350,35,70,175,500,1100,1300,1500,175,false);
+INSERT INTO properties VALUES (37, "Park Place", "Property",false,null,350,35,70,175,500,1100,1300,1500,175,false);
 INSERT INTO properties VALUES (38, "Luxury Tax", "Tax",null,null,null,null,null,null,null,null,null,null,null,null);
-INSERT INTO properties VALUES (39, "Boardwalk", "Property",null,null,400,50,100,200,600,1400,1700,2000,200,false);
+INSERT INTO properties VALUES (39, "Boardwalk", "Property",false,null,400,50,100,200,600,1400,1700,2000,200,false);
