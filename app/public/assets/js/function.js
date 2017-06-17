@@ -4,7 +4,6 @@ var piece;
 var globalPlayers;
 var boardValues = [];
 var snapPieces = [];
-var activePlayer = "";
 
 
 // Snap.svg Setup
@@ -12,45 +11,15 @@ var s = Snap('#svg'),
     boardSet = Snap.set(s),
     pieceSet = Snap.set();
 var die = Snap('#dice-svg');
-// s.attr({ viewBox: "0 0 600 900" });
 
-// var board = s.image("monopoly.svg", 0, 0, 600, 600);
 var board = Snap.load("", function(loadedFragment) {
     s.image("assets/img/monopoly.svg", 0, 0, 600, 600);
-    s.image("assets/img/path.svg", 0, 0, 600, 600);
     s.append(loadedFragment);
-    var loop = s.path("M 20 18 L 575 18 L 575 580 L 20 580  Z").attr({ fill: "none", stroke: "red", opacity: "1" });
+    var loop = s.path("M 20 18 L 575 18 L 575 580 L 20 580  Z").attr({ fill: "none", stroke: "red", opacity: "0" });
 
     var rect = s.rect(60, 0, 20, 20).attr({ fill: 'blue', opacity: 0 });
     var rect2 = rect.clone();
-
-    // hat.transform('t625,-150');
-    //     var t = new Snap.Matrix()
-    // t.translate(100, 100);
-    // hat.transform(t); 
-    // function drawRect(el) {
-    //     el.drawAtPath(loop, 7000, { callback: drawRect.bind(null, el) });
-    // }
-
-    // for (var x = 0; x < 1; x++) {
-    //     setTimeout(function() { drawRect(hat.clone().attr({ opacity: 1 })) }, x * 1000);
-    // }
-
-    // var loopLength = Snap.path.getTotalLength(loop);
 });
-
-
-
-
-// TESTING PIECE ON BOARD
-$('#submit').on('click', function() {
-    event.preventDefault();
-
-});
-
-
-
-
 
 /*====     Click Handlers     =====
  */
@@ -118,14 +87,6 @@ function playingOrder() {
     // event.preventDefault();
     playerSort();
     globalPlayers[0].active_turn = true;
-    activePlayer = globalPlayers[0];
-
-}
-// Move Piece
-function movePiece(id) {
-    hat.animate({ transform: 't100,50' }, 2000, mina.easeout, function() {
-
-    });
 }
 
 // Update globalPlayers object on move
@@ -144,11 +105,9 @@ function updateGlobal(spaces) {
                 } else {
                     globalPlayers[i].current_space += spaces;
                 }
-                movePiece(globalPlayers[i]);
                 // Get Board Value
                 getBoardValue(i, globalPlayers[i].current_space);
                 // Console Logs
-                // console.log(boardValues[globalPlayers[i].current_space]);
                 console.log("Current Space: " + globalPlayers[i].current_space);
                 console.log(globalPlayers[i].player_name, globalPlayers[i].current_space);
                 globalPlayers[i].active_turn = false;
@@ -162,10 +121,8 @@ function updateGlobal(spaces) {
                 } else {
                     globalPlayers[i].current_space += spaces;
                 }
-                movePiece();
                 // Get Board Value
                 getBoardValue(i, globalPlayers[i].current_space);
-                // console.log(boardValues[globalPlayers[i].current_space]);
                 console.log(globalPlayers[i].current_space);
                 next = 0;
                 console.log(globalPlayers[i].player_name);
@@ -193,9 +150,11 @@ function promptPlayer() {
     for (i = 0; i < globalPlayers.length; i++) {
         if (globalPlayers[i].active_turn === true) {
             $('#prop-info').html(`
-                <h3>Your Move ${globalPlayers[i].player_name}                
+                <div class="card" id="prop">
+                <h2><br><br>Your <br><br> Move <br><br> ${globalPlayers[i].player_name}</h2> 
+                </div>                             
                 `);
-
+            $("#prop").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
         }
     }
 }
@@ -210,7 +169,7 @@ function getBoardValue(player, num) {
     console.log(globalPlayers[player]);
     if (boardValues[num].type === 'Property') {
         $('#prop-info').html(`
-        <div id="prop">
+        <div class="card" id="prop">
         <h4 id="title">${boardValues[num].name}</h4>
         <hr size="30">
         <p>RENT ${boardValues[num].rent}</p>
@@ -276,7 +235,7 @@ function getBoardValue(player, num) {
         }
     } else if (boardValues[num].type === 'RR') {
         $('#prop-info').html(`
-                <div id="rrProp">
+                <div class="card" id="rrProp">
                 <img src="/assets/img/rr.svg" id="card-img"/>
                 <p>${boardValues[num].name}</p>
                 <hr size="30">
@@ -300,22 +259,34 @@ function getBoardValue(player, num) {
             $('#buy-prop').on('click', function() {
                 globalPlayers[player].money -= boardValues[num].price;
                 boardValues[num].isOwned = true;
-                boardValues[num].owner = globalPlayers[player].uuid;
+                boardValues[num].owner = globalPlayers[player].playing_order;
                 promptPlayer();
             });
-        } else if (boardValues[num].isOwned === true) {
+        } else if (boardValues[num].isOwned === true && owner != player) {
             $('#buy-opt').html(`
                     <label>${boardValues[num].name} is owned by ${boardValues[num].owner}.</label>
-                    <p>You owe them money for rent.</p>
-                    <button class="btn btn-default" id="ok">OK</button>
+                    <h4>Pay Up ${globalPlayers[player].player_name}!</h4>
+                    <br>
+                    <p>$${boardValues[num].rent}</p>
+                    <button class='btn btn-default' id='rent-owed'>Pay Owner</button>
                     `);
-            $("#ok").on('click', function() {
+            $('#rent-owed').on('click', function() {
+                globalPlayers[player].money -= boardValues[num].rent;
+                globalPlayers[owner].money += boardValues[num].rent;
+                console.log(globalPlayers[player].player_name, "PAID RENT");
                 promptPlayer();
             });
+        } else if (globalPlayers[boardValues[num].owner] === globalPlayers[player].uuid) {
+            $('#buy-opt').html(`<p>Rest Easy This Property is Yours</p>`);
+        } else if (boardValues[num].isMortgaged === true) {
+            $('#buy-opt').html(`
+                    <label>${boardValues[num].name} is owned and mortgaged.</label>
+                    <p>Enjoy your free stay.</p>
+                    `);
         }
     } else if (boardValues[num].type === 'Utility') {
         $('#prop-info').html(`
-                <div id="utility-card">
+                <div class="card" id="utility-card">
                 <p>${boardValues[num].name}</p>
 
                 <hr size="30">
@@ -351,75 +322,112 @@ function getBoardValue(player, num) {
         }
     } else if (boardValues[num].id === 4) {
         $('#prop-info').html(`
+                <div class="card" id="tax-card">
                 <label>${boardValues[num].name}</label>
                 <br>
                 <p>Pay 10%</p>
                 <p>   or   </p>
                 <p>$200</p>
+                </div>
                 `);
         $('#buy-opt').html(`
-                <button class='btn btn-default'>Pay 10%</button>
-                <button class='btn btn-default'>Pay $200</button>
+                <button class="btn btn-default" id="ok">>Pay 10%</button>
+                <button class="btn btn-default" id="ok">>Pay $200</button>
                 `);
-        promptPlayer();
+        $("#tax-card").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
+        $("#ok").on('click', function() {
+            promptPlayer();
+        });
     } else if (boardValues[num].id === 38) {
         $('#prop-info').html(`
+                <div class="card" id="tax-card">
                 <label>LUXURY TAX</label>
                 <br>
-                <p>PAY $75.00</p>    
+                <pPAY $75.00</p>   
+                </div> 
                 `);
         $('#buy-opt').html(`
                 <button class='btn btn-default' id="ok">Pay $75</button>
                 `);
+        $("#tax-card").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
+
         $("#ok").on('click', function() {
             promptPlayer();
         });
     } else if (boardValues[num].type === 'Chance') {
         $('#prop-info').html(`
-                <label>CHANCE</label>    
+            <div class="card" id="chance-card">
+                <h4>CHANCE</h4> 
+                <br>
+                <br>
+                <img src="/assets/img/chance.svg" id="card-img"/> 
+                </div>  
                 `);
         $('#buy-opt').html(`
             <button class="btn btn-default" id="ok">OK</button>
                 `);
+        $("#chance-card").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
+
         $("#ok").on('click', function() {
             promptPlayer();
         });
 
     } else if (boardValues[num].type === 'Chest') {
         $('#prop-info').html(`
-                <label>COMMUNITY CHEST</label>
+                <div class="card" id="chest-card">
+                <h4>COMMUNITY CHEST</h4>
+                <br>
+                <br>
+                <img src="/assets/img/chest.svg" id="card-img"/>
+                </div>
                 `);
         $('#buy-opt').html(`
             <button class="btn btn-default" id="ok">OK</button>
                 `);
+        $("#chest-card").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
+
         $("#ok").on('click', function() {
             promptPlayer();
         });
     } else if (boardValues[num].type === 'Go') {
         $('#prop-info').html(`
+                <div class="card" id="go">
                 <label>GO</label>
+                <br>
+                <br>
+                <img src="/assets/img/go.svg" id="card-img"/>
                 <p>COLLECT</p>
                 <p>$200.00 SALARY</p>
                 <p>AS YOU PASS</p>
+                </div>
                 `);
         $('#buy-opt').html(`
             <button class="btn btn-default" id="ok">OK</button>
                 `);
+        $("#go").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
+
         $("#ok").on('click', function() {
             promptPlayer();
         });
     } else if (boardValues[num].type === 'Free') {
-        $('prop-info').html(`
+        $('#prop-info').html(`
+                <div class="card" id="parking">
                 <label>FREE PARKING</label>
+                <br>
+                <br>
+                <img src="/assets/img/free-parking.svg" id="card-img"/>
+                </div>
                 `);
         $('#buy-opt').html(`
             <button class="btn btn-default" id="ok">OK</button>
                 `);
+        $("#parking").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
+
         $("#ok").on('click', function() {
             promptPlayer();
         });
     } else if (boardValues[num].type === 'Jail') {
-        $('prop-info').html(`
+        $('#prop-info').html(`
                 <label>GO TO JAIL</label>
                 <p>Go directly to jail</p>
                 <p>Do not pass go,</p>
@@ -432,7 +440,17 @@ function getBoardValue(player, num) {
             promptPlayer();
         });
     } else if (boardValues[num].type === 'Visiting') {
-        $('prop-info').html(`
+        $('#prop-info').html(`
+                <label>JUST VISITING</label>
+                `);
+        $('#buy-opt').html(`
+                        <button class="btn btn-default" id="ok">OK</button>
+                `);
+        $("#ok").on('click', function() {
+            promptPlayer();
+        });
+    } else if (boardValues[num].id === 10) {
+        $('#prop-info').html(`
                 <label>JUST VISITING</label>
                 `);
         $('#buy-opt').html(`

@@ -8,7 +8,7 @@
 	margin: 20px;
 	padding: 30px;
 	height:50em;
-	border-style: solid;
+	border-style: none;
 	border-width: 2px;
 	border-color: lightgrey;
 	border-radius: 4px;
@@ -19,14 +19,17 @@
 	z-index: 0;
     width: 600px;
 }
-#prop-info{
+.card{
 	width: 300px;
 	height: 400px;
-	padding: 30px;
+	padding: 15px;
 }
 #buy-opt{
 	width: 300px;
 	padding: 20px;
+}
+#roll{
+	margin:15px;
 }
 #card-img{
 	padding: 7px;
