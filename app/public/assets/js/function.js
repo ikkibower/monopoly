@@ -512,11 +512,11 @@ function getBoardValue(player, num) {
                 </div>  
                 `);
         $('#buy-opt').html(`
-            <button class="btn btn-default" id="ok">OK</button>
+            <button class="btn btn-default" id="draw">Draw Card</button>
                 `);
         $("#chance-card").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
 
-        $("#ok").on('click', function() {
+        $("#draw").on('click', function() {
             drawCard(player, chanceCards);
             promptPlayer();
         });
@@ -531,11 +531,11 @@ function getBoardValue(player, num) {
                 </div>
                 `);
         $('#buy-opt').html(`
-            <button class="btn btn-default" id="ok">OK</button>
+            <button class="btn btn-default" id="draw">Draw Card</button>
                 `);
         $("#chest-card").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
 
-        $("#ok").on('click', function() {
+        $("#draw").on('click', function() {
             drawCard(player, chestCards);
             promptPlayer();
         });
