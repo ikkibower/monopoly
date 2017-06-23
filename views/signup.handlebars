@@ -9,6 +9,7 @@
         {{/each}} {{/if}} {{#unless user}}
         <p>Already have an account? Please <a href="/login">log in</a>.</p>
         {{/unless}}
+        <h3>Sign Up</h3>
         <form method="POST" action="/signup">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -21,11 +22,13 @@
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" name="password" class="form-control" id="exampleInputEmail1" placeholder="Password">
-                <div class="form-group">
-                    <label for="passwordMatch">Re-Enter Password</label>
-                    <input type="password" name="passwordMatch" class="form-control" id="exampleInputEmail1" placeholder="Password">
-                    <br>
-                    <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+            <div class="form-group">
+                <label for="passwordMatch">Re-Enter Password</label>
+                <input type="password" name="passwordMatch" class="form-control" id="exampleInputEmail1" placeholder="Password">
+                <br>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
         </form>
-        </div>
     </div>
+</div>

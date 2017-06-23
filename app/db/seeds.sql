@@ -46,6 +46,5 @@ INSERT INTO Properties VALUES (38, "Luxury Tax", "Tax",null,null,null,null,null,
 INSERT INTO Properties VALUES (39, "Boardwalk", "Property",false,null,400,50,100,200,600,1400,1700,2000,200,false);
 
 
--- Player Seeds
-INSERT INTO players VALUES("Georgio","Hat",1500,0,null,false,false);
+
 

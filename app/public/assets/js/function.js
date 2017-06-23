@@ -25,7 +25,6 @@ var board = Snap.load("", function(loadedFragment) {
  */
 $('#roll').on("click", function() {
     rollDice();
-
 });
 $('#start').on('click', function(req, res) {
     event.preventDefault();
@@ -142,6 +141,161 @@ function updateGlobal(spaces) {
         console.log(globalPlayers);
     }
 }
+/*PROPERTY
+ */
+function buyProperty(player, num) {
+    var dashPlayer = '#dash-money' + player;
+
+    // Update Object
+    globalPlayers[player].properties.push(boardValues[num].name);
+    globalPlayers[player].money -= boardValues[num].price;
+    boardValues[num].isOwned = true;
+    boardValues[num].owner = globalPlayers[player].playing_order;
+    // Update Dashboard
+    $(dashPlayer).html(globalPlayers[player].money);
+
+    // pay(player, num) {}
+};
+
+function payProperty(player, num, owner) {
+    var dashPlayer = '#dash-money' + player;
+    var dashOwner = '#dash-money' + owner;
+    // Update Object
+    globalPlayers[player].money -= boardValues[num].rent;
+    globalPlayers[owner].money += boardValues[num].rent;
+    console.log(globalPlayers[player].player_name, "PAID RENT");
+    // Update Dashboard
+    $(dashOwner).html(globalPlayers[owner].money);
+    $(dashPlayer).html(globalPlayers[player].money);
+};
+
+
+/*====     Chance/Community Cards    =====
+ */
+// =========================================================
+
+function updateBalance(player, amount) {
+    var dashPlayer = '#dash-money' + player;
+    globalPlayers[player].money += amount;
+    $(dashPlayer).html(globalPlayers[player].money);
+}
+
+function movePiece(player, direction, destination) {
+    if (direction > 0 && destination != "jail" && destination < globalPlayers[player].current_space) {
+        // Moving forward to or past Go, but not going to jail
+        updateBalance(player, +200);
+    }
+    console.log(destination)
+    globalPlayers[player].current_space = destination;
+    getBoardValue(player, destination);
+
+}
+
+function drawCard(player, deck) {
+    var card = deck.shift();
+    console.log(card);
+    console.log(card.title);
+    card.act(player);
+    deck.push(card);
+}
+
+function shuffle(deck) {
+    // Fisher-Yates shuffle
+    for (var i = deck.length - 1; i > 0; i--) {
+        var j = Math.floor((i + 1) * Math.random());
+        var swap = deck[i];
+        deck[i] = deck[j];
+        deck[j] = swap;
+    }
+}
+
+//////////////////////// CARD TYPES ////////////////////////
+
+function AbsMoveCard(title, destination) {
+    this.title = title;
+    this.destination = destination;
+}
+
+AbsMoveCard.prototype.act = function(player) {
+    // All logic about current position, bonus for passing Go, and checking
+    // for property sale should be included in movePiece().
+    movePiece(player, +1, this.destination);
+};
+
+function RelMoveCard(title, distance) {
+    this.title = title;
+    this.distance = distance;
+}
+
+RelMoveCard.prototype.act = function(player) {
+    // All logic about current position, bonus for passing Go, and checking
+    // for property sale should be included in movePiece().
+    movePiece(player, this.distance, (player.currentpos + 40 + this.distance) % 40);
+}
+
+function MoneyCard(title, amount) {
+    this.title = title;
+    this.amount = amount;
+}
+
+MoneyCard.prototype.act = function(player) {
+    updateBalance(player, this.amount);
+}
+
+function AssessmentCard(title, perHouse, perHotel) {
+    this.title = title;
+    this.perHouse = perHouse;
+    this.perHotel = perHotel;
+}
+
+AssessmentCard.prototype.act = function(player) {
+    updateBalance(player, player.houseCount * this.perHouse +
+        player.hotelCount * this.perHotel);
+}
+
+/////////////////////////// CARDS ///////////////////////////
+
+var chanceCards = [
+    // "Go" should be position 0 rather than 40
+    new AbsMoveCard("Advance to go", 0),
+    new AbsMoveCard("Advance to London", 39),
+    new AbsMoveCard("Your ass is going to jail", "jail"),
+    new AbsMoveCard("Advance to Rome", 24),
+    new AbsMoveCard("Advance to Charles de Gaulle", 15),
+    new AbsMoveCard("Advance to Amsterdam", 11),
+    new RelMoveCard("Go back 3 spaces", -3),
+    new MoneyCard("No drink and driving mate!", -20),
+    new MoneyCard("Get out of Jail free card", -150),
+    new MoneyCard("Pay school fees", -150),
+    new MoneyCard("Speeding fine", -150),
+    new MoneyCard("Bank pays you dividend", +40),
+    new MoneyCard("You have won the competition", +200),
+    new MoneyCard("Your building loan matures", +200),
+    new AssessmentCard("You are assessed for street repairs $40 per house $115 per hotel", -40, -115),
+    new AssessmentCard("House repairs $25 per house $100 per hotel", -25, -100),
+];
+
+var chestCards = [
+    new AbsMoveCard("Advance to go", 0),
+    new AbsMoveCard("Advance to Cairo", 1),
+    new AbsMoveCard("Go to Jail", "jail"),
+    new MoneyCard("Pay hospital fees", -100),
+    new MoneyCard("Pay doctor fees", -50),
+    new MoneyCard("Pay insurance premium", -50),
+    new MoneyCard("Bank error. Collect $200", +200),
+    new MoneyCard("Annuity matures. Collect $100", +100),
+    new MoneyCard("You inherit $100", +100),
+    new MoneyCard("From sale of stock you get $50", +50),
+    new MoneyCard("Preference shares: $25", +25),
+    new MoneyCard("You have won second prize in a beauty contest. Collect $10.", +10),
+    new MoneyCard("It is your birthday. Collect $10.", +10),
+    new MoneyCard("You win the lottery. Collect $10", +10),
+];
+
+shuffle(chanceCards);
+shuffle(chestCards);
+// ====================================================================
+
 /* PROMPT PLAYER
  */
 function promptPlayer() {
@@ -163,9 +317,7 @@ function promptPlayer() {
  */
 function getBoardValue(player, num) {
     $("#buy-opt").show();
-    console.log(globalPlayers[player]);
     var owner = boardValues[num].owner;
-    console.log("OWNER:", owner);
     console.log(globalPlayers[player]);
     if (boardValues[num].type === 'Property') {
         $('#prop-info').html(`
@@ -206,9 +358,8 @@ function getBoardValue(player, num) {
                     <button class='btn btn-default'>Nah, I'm good</button>
                 `);
             $('#buy-prop').on('click', function() {
-                globalPlayers[player].money -= boardValues[num].price;
-                boardValues[num].isOwned = true;
-                boardValues[num].owner = globalPlayers[player].playing_order;
+                // Update Object
+                buyProperty(player, num);
                 promptPlayer();
             });
         } else if (boardValues[num].isOwned === true && owner != player) {
@@ -220,9 +371,7 @@ function getBoardValue(player, num) {
                     <button class='btn btn-default' id='rent-owed'>Pay Owner</button>
                     `);
             $('#rent-owed').on('click', function() {
-                globalPlayers[player].money -= boardValues[num].rent;
-                globalPlayers[owner].money += boardValues[num].rent;
-                console.log(globalPlayers[player].player_name, "PAID RENT");
+                payProperty(player, num, owner);
                 promptPlayer();
             });
         } else if (globalPlayers[boardValues[num].owner] === globalPlayers[player].uuid) {
@@ -257,9 +406,7 @@ function getBoardValue(player, num) {
                     <button class='btn btn-default'>Nah, I'm good</button>
                 `);
             $('#buy-prop').on('click', function() {
-                globalPlayers[player].money -= boardValues[num].price;
-                boardValues[num].isOwned = true;
-                boardValues[num].owner = globalPlayers[player].playing_order;
+                buyProperty(player, num);
                 promptPlayer();
             });
         } else if (boardValues[num].isOwned === true && owner != player) {
@@ -271,9 +418,7 @@ function getBoardValue(player, num) {
                     <button class='btn btn-default' id='rent-owed'>Pay Owner</button>
                     `);
             $('#rent-owed').on('click', function() {
-                globalPlayers[player].money -= boardValues[num].rent;
-                globalPlayers[owner].money += boardValues[num].rent;
-                console.log(globalPlayers[player].player_name, "PAID RENT");
+                payProperty(player, num, owner)
                 promptPlayer();
             });
         } else if (globalPlayers[boardValues[num].owner] === globalPlayers[player].uuid) {
@@ -288,13 +433,12 @@ function getBoardValue(player, num) {
         $('#prop-info').html(`
                 <div class="card" id="utility-card">
                 <p>${boardValues[num].name}</p>
-
                 <hr size="30">
                 <p>  If one "Utility" is owned</p>
                 <p>rent is 4 times amount shown</p>
                 <p>on dice.</p>
                 <br>
-                <p>  If both "Utilities" are owned</p>
+                <p> If both "Utilities" are owned</p>
                 <p>rent is 10 times amount shown</p>
                 <p>on dice.</p>
                 <br>
@@ -309,14 +453,18 @@ function getBoardValue(player, num) {
                     <button class='btn btn-default' id='buy-prop'>I would love to!</button>
                     <button class='btn btn-default'>Nah, I'm good</button>
                 `);
-            promptPlayer();
+            $('#buy-prop').on('click', function() {
+                buyProperty(player, num);
+                promptPlayer();
+            });
         } else if (boardValues[num].isOwned === true) {
             $('#buy-opt').html(`
                     <label>${boardValues[num].name} is owned by ${boardValues[num].owner}.</label>
                     <p>You owe them money for rent.</p>
-                    <button class="btn btn-default" id="ok">OK</button>
+                    <button class='btn btn-default' id='rent-owed'>Pay Owner</button>
                     `);
-            $("#ok").on('click', function() {
+            $('#rent-owed').on('click', function() {
+                payProperty(player, num, owner);
                 promptPlayer();
             });
         }
@@ -369,6 +517,7 @@ function getBoardValue(player, num) {
         $("#chance-card").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
 
         $("#ok").on('click', function() {
+            drawCard(player, chanceCards);
             promptPlayer();
         });
 
@@ -387,6 +536,7 @@ function getBoardValue(player, num) {
         $("#chest-card").css({ "text-align": "center", "font-weight": "strong", "border-style": "solid", "border-width": "15px", "border-radius": "7px", "border-color": "#313233" });
 
         $("#ok").on('click', function() {
+            drawCard(player, chestCards);
             promptPlayer();
         });
     } else if (boardValues[num].type === 'Go') {
@@ -474,13 +624,29 @@ function getPlayer(data) {
         playingOrder();
         // Appending values
         globalPlayers.forEach(function(element, index, globalPlayers) {
-            var playerPiece = "#" + element.piece;
+            var playerPiece = '#' + element.piece;
             console.log(playerPiece);
             console.log(element);
             // Append Snap.svg piece as string
             element.player_piece = playerPiece;
             element.playing_order = index;
-            // $(playerPiece).show();
+            element.properties = [];
+            // Append Player Dashboard
+            $('.table-striped tbody').append(`
+                <tr>
+                <td>${element.player_name}</td>
+                <td><img src="assets/img/${element.piece}.svg" width="50px"/></td>
+                <td id="dash-money${index}">${element.money}</td>
+                <td><buttontype="button" class="btn btn-primary" id="player-prop${index}"" data-toggle="modal" data-target="#player-prop">Properties</button><td>
+                `);
+            // Properties Click Handler
+            var propClick = '#player-prop' + index;
+            $(propClick).on('click', function() {
+                $('.modal-body').html(`
+                    <h4>Properties</h4>
+                    <p>${globalPlayers[index].properties}</p>
+                    `);
+            });
         });
         console.log(snapPieces);
         return data;

@@ -1,3 +1,30 @@
+/*Player Dashboard*/
+th,
+td {
+    text-align: center;
+    padding: 10px;
+}
+.table-striped {
+    width: 100%;
+}
+#dashboard-header{
+	text-align: center;
+	padding: 7px;
+	background-color: lightgrey;
+}
+#dashboard-field{
+	border-style: solid;
+	border-width: 15px;
+	border-color: #313233;
+	border-radius: 7px;
+}
+#player-dashboard{
+	margin: 7px;
+/*	border-style: solid;
+	border-width: 3px;
+	border-color: lightgrey;*/
+
+}
 #game-field{
 	margin: 20px;
 	width: 600px;
